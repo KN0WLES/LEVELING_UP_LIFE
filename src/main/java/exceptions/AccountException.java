@@ -1,12 +1,25 @@
 package exceptions;
 
+/**
+ * Clase que representa excepciones específicas relacionadas con la gestión de cuentas de usuario.
+ * Proporciona mensajes de error predefinidos para situaciones comunes, como cuentas no encontradas,
+ * usuarios duplicados o credenciales inválidas.
+ * 
+ * @description Funcionalidades principales:
+ *                   - Lanzar una excepción cuando una cuenta no es encontrada.
+ *                   - Lanzar una excepción cuando un usuario ya existe.
+ *                   - Lanzar una excepción cuando las credenciales son inválidas.
+ *                   - Lanzar una excepción cuando se intenta modificar/eliminar una cuenta de administrador.
+ * 
+ * @autor KNOWLES
+ * @version 1.0
+ * @since 2025-04-29
+ */
 public class AccountException extends Exception {
-    // Básico
     public AccountException(String message) {
         super(message);
     }
     
-    // Factory methods para errores comunes
     public static AccountException userNotFound() {
         return new AccountException("Cuenta no encontrada");
     }
