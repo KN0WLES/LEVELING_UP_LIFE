@@ -6,6 +6,22 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+/**
+ * Clase que representa el modelo de un evento en el sistema.
+ * Gestiona información completa de eventos incluyendo datos como nombre, fechas,
+ * tipo de evento, capacidad, precio y control de participantes.
+ * 
+ * @description Funcionalidades principales:
+ *                   - Crear eventos con validaciones de fechas, tipo y capacidad.
+ *                   - Gestionar la inscripción y eliminación de participantes.
+ *                   - Serializar y deserializar eventos para almacenamiento.
+ *                   - Mostrar información detallada del evento.
+ * 
+ * @author KNOWLES
+ * @version 1.0
+ * @since 2025-04-29
+ * @see Base
+ */
 public class Event extends Base<Event> {
     private String id;
     private String nombre;
@@ -16,8 +32,23 @@ public class Event extends Base<Event> {
     private double precio;
     private Set<String> participantes; // IDs de Account
 
+    /**
+     * Constructor vacío para serialización.
+     */
     public Event(){}
 
+    /**
+     * Constructor principal para crear un evento con todos sus atributos.
+     * Realiza validaciones para asegurar que los datos sean correctos.
+     *
+     * @param nombre Nombre descriptivo del evento
+     * @param fechaInicio Fecha y hora de inicio
+     * @param fechaFin Fecha y hora de finalización
+     * @param tipo Tipo de evento: 'C' (Conferencia), 'T' (Taller), 'F' (Fiesta)
+     * @param capacidad Número máximo de participantes
+     * @param precio Costo para participar en el evento
+     * @throws IllegalArgumentException Si los datos no cumplen las validaciones
+     */
     public Event(String nombre, LocalDateTime fechaInicio, LocalDateTime fechaFin, char tipo, int capacidad, double precio) {
         if (!"CTF".contains(String.valueOf(tipo)))
             throw new IllegalArgumentException("Tipo inválido. Use C, T, o F");
@@ -36,41 +67,101 @@ public class Event extends Base<Event> {
         this.participantes = new HashSet<>();
     }
 
-    // --- Getters ---
+    /**
+     * Obtiene el identificador único del evento.
+     * @return ID del evento
+     */
     public String getId() { return id; }
+    
+    /**
+     * Obtiene el nombre del evento.
+     * @return Nombre del evento
+     */
     public String getNombre() { return nombre; }
+    
+    /**
+     * Obtiene la fecha y hora de inicio.
+     * @return Fecha de inicio
+     */
     public LocalDateTime getFechaInicio() { return fechaInicio; }
+    
+    /**
+     * Obtiene la fecha y hora de finalización.
+     * @return Fecha de fin
+     */
     public LocalDateTime getFechaFin() { return fechaFin; }
+    
+    /**
+     * Obtiene el tipo de evento.
+     * @return Tipo de evento: 'C' (Conferencia), 'T' (Taller), 'F' (Fiesta)
+     */
     public char getTipo() { return tipo; }
+    
+    /**
+     * Obtiene la capacidad máxima del evento.
+     * @return Capacidad del evento
+     */
     public int getCapacidad() { return capacidad; }
+    
+    /**
+     * Obtiene el precio de participación.
+     * @return Precio del evento
+     */
     public double getPrecio() { return precio; }
+    
+    /**
+     * Obtiene el conjunto de IDs de los participantes.
+     * @return Conjunto de IDs de participantes
+     */
     public Set<String> getParticipantes() { return participantes; }
 
-    // --- Setters ---
+    /**
+     * Modifica el tipo de evento.
+     * 
+     * @param tipo Nuevo tipo de evento ('C', 'T' o 'F')
+     * @throws IllegalArgumentException Si el tipo no es válido
+     */
     public void setTipo(char tipo) {
         if (!"CTF".contains(String.valueOf(tipo)))
             throw new IllegalArgumentException("Tipo inválido");
         this.tipo = tipo;
     }
 
+    /**
+     * Modifica la capacidad del evento.
+     * 
+     * @param capacidad Nueva capacidad del evento
+     * @throws IllegalArgumentException Si la capacidad no es positiva
+     */
     public void setCapacidad(int capacidad) {
         if (capacidad <= 0)
             throw new IllegalArgumentException("La capacidad debe ser positiva");
         this.capacidad = capacidad;
     }
 
-    // --- Métodos de Participantes ---
+    /**
+     * Añade un participante al evento.
+     * 
+     * @param accountId ID de la cuenta a añadir
+     * @return true si se añadió correctamente, false si ya existía
+     * @throws IllegalStateException Si el evento ya está lleno
+     */
     public boolean addParticipante(String accountId) {
         if (participantes.size() >= capacidad)
             throw new IllegalStateException("Evento lleno");
         return participantes.add(accountId);
     }
 
+    /**
+     * Elimina un participante del evento.
+     * 
+     * @param accountId ID de la cuenta a eliminar
+     * @return true si se eliminó correctamente, false si no existía
+     */
     public boolean removeParticipante(String accountId) {
         return participantes.remove(accountId);
     }
 
-    // --- Serialización ---
     @Override
     public String toFile() {
         DateTimeFormatter fmt = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
