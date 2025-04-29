@@ -1,0 +1,238 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "FMR_ProductosBebida",
+            "request": "launch",
+            "mainClass": "view.gui.FMR_ProductosBebida",
+            "projectName": "V1-4"
+        },
+        {
+            "type": "java",
+            "name": "FMR_PRODUCT",
+            "request": "launch",
+            "mainClass": "view.gui.FMR_PRODUCT",
+            "projectName": "V1-4"
+        },
+        {
+            "type": "java",
+            "name": "FMR_EventosReservas",
+            "request": "launch",
+            "mainClass": "view.gui.FMR_EventosReservas",
+            "projectName": "V1-4"
+        },
+        {
+            "type": "java",
+            "name": "FMR_B_MisR",
+            "request": "launch",
+            "mainClass": "view.gui.FMR_B_MisR",
+            "projectName": "V1-4"
+        },
+        {
+            "type": "java",
+            "name": "FMR_B_HIST",
+            "request": "launch",
+            "mainClass": "view.gui.FMR_B_HIST",
+            "projectName": "V1-4"
+        },
+        {
+            "type": "java",
+            "name": "FMR_EVENTACTIVOS",
+            "request": "launch",
+            "mainClass": "view.gui.FMR_EVENTACTIVOS",
+            "projectName": "V1-4"
+        },
+        {
+            "type": "java",
+            "name": "FMR_B_Crear",
+            "request": "launch",
+            "mainClass": "view.gui.FMR_B_Crear",
+            "projectName": "V1-4"
+        },
+        {
+            "type": "java",
+            "name": "FMR_BOOKING",
+            "request": "launch",
+            "mainClass": "view.gui.FMR_BOOKING",
+            "projectName": "V1-4"
+        },
+        {
+            "type": "java",
+            "name": "FMR_EVENT",
+            "request": "launch",
+            "mainClass": "view.gui.FMR_EVENT",
+            "projectName": "V1-4"
+        },
+        {
+            "type": "java",
+            "name": "FMR_RoomsMixtas",
+            "request": "launch",
+            "mainClass": "view.gui.FMR_RoomsMixtas",
+            "projectName": "V1-4"
+        },
+        {
+            "type": "java",
+            "name": "FMR_RoomsPrivadas",
+            "request": "launch",
+            "mainClass": "view.gui.FMR_RoomsPrivadas",
+            "projectName": "V1-4"
+        },
+        {
+            "type": "java",
+            "name": "FMR_RoomsDormitorio",
+            "request": "launch",
+            "mainClass": "view.gui.FMR_RoomsDormitorio",
+            "projectName": "V1-4"
+        },
+        {
+            "type": "java",
+            "name": "FMR_RoomsIndividual",
+            "request": "launch",
+            "mainClass": "view.gui.FMR_RoomsIndividual",
+            "projectName": "V1-4"
+        },
+        {
+            "type": "java",
+            "name": "FMR_ROOMS",
+            "request": "launch",
+            "mainClass": "view.gui.FMR_ROOMS",
+            "projectName": "V1-4"
+        },
+        {
+            "type": "java",
+            "name": "FMR_DESARROLLADORES",
+            "request": "launch",
+            "mainClass": "view.console.FMR_DESARROLLADORES",
+            "projectName": "V1-4"
+        },
+        {
+            "type": "java",
+            "name": "FMR_FaQ_AllQuestions",
+            "request": "launch",
+            "mainClass": "view.gui.FMR_FaQ_AllQuestions",
+            "projectName": "V1-4"
+        },
+        {
+            "type": "java",
+            "name": "FMR_DESARROLLADORES",
+            "request": "launch",
+            "mainClass": "view.gui.FMR_DESARROLLADORES",
+            "projectName": "V1-4"
+        },
+        {
+            "type": "java",
+            "name": "FMR_CONCEPTO",
+            "request": "launch",
+            "mainClass": "view.gui.FMR_CONCEPTO",
+            "projectName": "V1-4"
+        },
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "AccountMenuController",
+            "request": "launch",
+            "mainClass": "view.console.AccountMenuController",
+            "projectName": "V1-4"
+        },
+        {
+            "type": "java",
+            "name": "BookingMenuController",
+            "request": "launch",
+            "mainClass": "view.console.BookingMenuController",
+            "projectName": "V1-4"
+        },
+        {
+            "type": "java",
+            "name": "EventMenuController",
+            "request": "launch",
+            "mainClass": "view.console.EventMenuController",
+            "projectName": "V1-4"
+        },
+        {
+            "type": "java",
+            "name": "FaQMenuController",
+            "request": "launch",
+            "mainClass": "view.console.FaQMenuController",
+            "projectName": "V1-4"
+        },
+        {
+            "type": "java",
+            "name": "MainMenuController",
+            "request": "launch",
+            "mainClass": "view.console.MainMenuController",
+            "projectName": "V1-4"
+        },
+        {
+            "type": "java",
+            "name": "ProductMenuController",
+            "request": "launch",
+            "mainClass": "view.console.ProductMenuController",
+            "projectName": "V1-4"
+        },
+        {
+            "type": "java",
+            "name": "RoomMenuController",
+            "request": "launch",
+            "mainClass": "view.console.RoomMenuController",
+            "projectName": "V1-4"
+        },
+        {
+            "type": "java",
+            "name": "FMR_AccesoFaQ",
+            "request": "launch",
+            "mainClass": "view.gui.FMR_AccesoFaQ",
+            "projectName": "V1-4"
+        },
+        {
+            "type": "java",
+            "name": "FMR_ContactoFaQ",
+            "request": "launch",
+            "mainClass": "view.gui.FMR_ContactoFaQ",
+            "projectName": "V1-4"
+        },
+        {
+            "type": "java",
+            "name": "FMR_FaQ",
+            "request": "launch",
+            "mainClass": "view.gui.FMR_FaQ",
+            "projectName": "V1-4"
+        },
+        {
+            "type": "java",
+            "name": "FMR_LOGIN",
+            "request": "launch",
+            "mainClass": "view.gui.FMR_LOGIN",
+            "projectName": "V1-4"
+        },
+        {
+            "type": "java",
+            "name": "FMR_MYACC",
+            "request": "launch",
+            "mainClass": "view.gui.FMR_MYACC",
+            "projectName": "V1-4"
+        },
+        {
+            "type": "java",
+            "name": "FMR_RECUPERACION",
+            "request": "launch",
+            "mainClass": "view.gui.FMR_RECUPERACION",
+            "projectName": "V1-4"
+        },
+        {
+            "type": "java",
+            "name": "FMR_REGISTRO",
+            "request": "launch",
+            "mainClass": "view.gui.FMR_REGISTRO",
+            "projectName": "V1-4"
+        }
+    ]
+}

@@ -1,0 +1,36 @@
+8491dcf6-adc6-4982-9c7a-e9d2d3d14eb7|Hamburguesa Clásica|C|25.0|50
+0034cb58-9a37-45b5-ab94-6959681b0150|Hamburguesa Especial con Bacon|C|32.0|45
+09ebaf32-eda4-4dfb-9fe1-5bed613b524d|Club Sandwich|C|28.0|40
+9b031183-ca87-4967-a487-12be7ca4c004|Sandwich Vegetal|C|22.0|30
+fdca0605-3dee-4226-bc2b-fcf29787859f|Pizza Margarita|C|35.0|25
+f25935e4-1a32-4119-a017-ec1d5b93bb0e|Pizza 4 Quesos|C|40.0|23
+1753d9d6-b5cf-407c-879d-0c2045eefb76|Pasta Carbonara|C|30.0|35
+2dc96408-9935-4ae5-85a3-8e93bc1db81f|Pasta Boloñesa|C|28.0|35
+51c82bae-bd76-4d95-9579-35e4bbac26bb|Ensalada César|C|24.0|30
+58f15d42-8f95-4286-aa5d-c78168fa4b53|Ensalada Mediterránea|C|22.0|30
+c29f276c-5eb7-4cc0-a100-59481e4d41ab|Tacos de Pollo (3 uds)|C|26.0|40
+1a448dad-6398-4769-bc21-96334e426e5c|Nachos con Guacamole|C|20.0|45
+cbe4f869-2bae-4dc6-a69e-63efd89a8a1e|Café Espresso|B|5.0|100
+9f97e8b2-3727-4159-a483-a0e866977508|Café Americano|B|6.0|100
+18930fc8-12e3-4518-9b58-2c95dbaca41c|Cappuccino|B|8.0|80
+69e92ab1-7392-4a6b-8003-d537a4a76ffb|Latte|B|8.0|80
+bad4e294-2b11-43c7-a6ef-71e441e956d8|Chocolate Caliente|B|7.0|60
+0fa12377-1e86-4ca7-8d59-2167520b65d6|Té Verde|B|5.0|70
+836b3edf-0307-4388-99fa-ef9034fc1083|Té Negro|B|5.0|70
+48a56f3c-99dd-4599-a60e-7511e793c288|Smoothie de Frutas|B|12.0|40
+528f4245-798b-40a0-beab-4f87b148e3a3|Limonada Natural|B|8.0|49
+ac690b54-0aa3-4557-8663-b2409dc9069e|Agua Mineral|B|4.0|150
+f6cd4513-abb7-4eda-afe2-6c8a1d94ce35|Refresco Cola|B|6.0|100
+126b361e-551b-4b62-9406-62170bc022ea|Cerveza Nacional|B|10.0|80
+6a64dac8-ec4f-49a8-bf78-30fa9c2b846c|Cerveza Importada|B|15.0|60
+a1666ae4-8597-42f7-a938-09bb8b7984a0|Vino Tinto Copa|B|12.0|40
+80751cc8-f36c-4b9e-b878-a4d321f84831|Tiramisú|P|15.0|30
+f014e99e-6655-457b-8856-902321304282|Cheesecake|P|14.0|35
+172bfedb-c34f-4254-8854-8c1b706734f5|Brownie con Helado|P|16.0|40
+814069e7-c5a0-45ad-b5e2-6f5196884065|Tarta de Manzana|P|13.0|25
+db6d6cd6-aa85-47fa-a99c-0ea7080f723f|Helado (3 bolas)|P|12.0|50
+886ac984-a91e-48a5-a9c9-e7a3845d2a46|Crepe de Nutella|P|14.0|45
+51abb72e-6145-4412-85fc-72e0063841d6|Flan Casero|P|10.0|30
+a70a43ea-5431-4f78-89b3-cae37364b8a5|Mousse de Chocolate|P|12.0|35
+0f5fa4e8-7296-4c5d-9775-d8732c3e5e91|Frutas del Bosque|P|11.0|25
+0f9fc7ad-c0b7-4dcc-9ce7-29b7ac014e3d|Galletas Artesanales|P|8.0|57
