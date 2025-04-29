@@ -32,14 +32,14 @@ import java.util.List;
 public interface IEvent {
     /**
      * Crea un nuevo evento.
-     * El evento debe contener toda la información requerida como:
-     *                        -Título
-     *                        -Fecha
-     *                        -Hora
-     *                        -Descripción
-     *                        -Capacidad máxima.
-     * El sistema validará que no exista otro evento
-     * con el mismo ID y que los datos cumplan con las validaciones establecidas.
+     *                      El evento debe contener toda la información requerida como:
+     *                          -Título
+     *                          -Fecha
+     *                          -Hora
+     *                          -Descripción
+     *                          -Capacidad máxima.
+     *                      El sistema validará que no exista otro evento
+     *                      con el mismo ID y que los datos cumplan con las validaciones establecidas.
      *
      * @param evento Evento a crear.
      * @throws EventException Si ocurre un error al crear el evento.
@@ -48,8 +48,8 @@ public interface IEvent {
 
     /**
      * Cancela un evento existente.
-     * La cancelación implica cambiar el estado del evento a "cancelado" y notificar
-     * a todos los participantes registrados. No se elimina el evento del sistema.
+     *                      La cancelación implica cambiar el estado del evento a "cancelado" y notificar
+     *                      a todos los participantes registrados. No se elimina el evento del sistema.
      *
      * @param eventId Identificador del evento a cancelar.
      * @throws EventException Si el evento no existe.
@@ -58,8 +58,8 @@ public interface IEvent {
 
     /**
      * Agrega un participante a un evento.
-     * Se verifica que el evento tenga capacidad disponible y que el participante
-     * no esté ya registrado en el mismo evento.
+     *                      Se verifica que el evento tenga capacidad disponible y que el participante
+     *                      no esté ya registrado en el mismo evento.
      *
      * @param eventId Identificador del evento.
      * @param accountId Identificador del participante.
@@ -70,7 +70,7 @@ public interface IEvent {
 
     /**
      * Remueve un participante de un evento.
-     * Un participante puede ser removido antes de que el evento comience.
+     *                      Un participante puede ser removido antes de que el evento comience.
      *
      * @param eventId Identificador del evento.
      * @param accountId Identificador del participante.
@@ -90,8 +90,8 @@ public interface IEvent {
 
     /**
      * Busca eventos por fecha.
-     * Retorna todos los eventos programados para la fecha especificada,
-     * independientemente de su estado (activo, cancelado).
+     *                      Retorna todos los eventos programados para la fecha especificada,
+     *                      independientemente de su estado (activo, cancelado).
      *
      * @param fecha Fecha de los eventos a buscar.
      * @return Lista de eventos en la fecha especificada.
@@ -101,8 +101,8 @@ public interface IEvent {
 
     /**
      * Lista los eventos activos.
-     * Un evento activo es aquel que no ha sido cancelado y cuya fecha
-     * es igual o posterior a la fecha actual.
+     *                      Un evento activo es aquel que no ha sido cancelado y cuya fecha
+     *                      es igual o posterior a la fecha actual.
      *
      * @return Lista de eventos activos.
      * @throws EventException Si ocurre un error al obtener los eventos.
@@ -111,10 +111,10 @@ public interface IEvent {
 
     /**
      * Lista todos los eventos.
-     * Incluye eventos:
-     *               -Activos
-     *               -Pasados
-     *               -Cancelados
+     *                      Incluye eventos:
+     *                          -Activos
+     *                          -Pasados
+     *                          -Cancelados
      *
      * @return Lista de todos los eventos.
      * @throws EventException Si ocurre un error al obtener los eventos.

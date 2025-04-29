@@ -33,8 +33,8 @@ public interface IFile<T> {
     
     /**
      * Guarda una lista de datos en un archivo.
-     * El método sobrescribe el contenido del archivo si ya existe.
-     * El formato de serialización depende de la implementación (JSON, XML, binario, etc.).
+     *                      El método sobrescribe el contenido del archivo si ya existe.
+     *                      El formato de serialización depende de la implementación (JSON, XML, binario, etc.).
      *
      * @param data Lista de datos a guardar.
      * @param filePath Ruta del archivo.
@@ -44,7 +44,7 @@ public interface IFile<T> {
     
     /**
      * Carga una lista de datos desde un archivo.
-     * El formato de deserialización depende de la implementación (JSON, XML, binario, etc.).
+     *                      El formato de deserialización depende de la implementación (JSON, XML, binario, etc.).
      *
      * @param filePath Ruta del archivo.
      * @return Lista de datos cargados.
@@ -54,8 +54,8 @@ public interface IFile<T> {
     
     /**
      * Agrega un dato al final del archivo.
-     * A diferencia de saveData, este método no sobrescribe el contenido existente,
-     * sino que añade el nuevo dato al final del archivo.
+     *                      A diferencia de saveData, este método no sobrescribe el contenido existente,
+     *                      sino que añade el nuevo dato al final del archivo.
      *
      * @param data Dato a agregar.
      * @param filePath Ruta del archivo.
@@ -65,7 +65,7 @@ public interface IFile<T> {
     
     /**
      * Verifica si un archivo existe.
-     * Útil para validar la existencia del archivo antes de intentar operaciones de lectura.
+     *                      Útil para validar la existencia del archivo antes de intentar operaciones de lectura.
      *
      * @param filePath Ruta del archivo.
      * @return true si el archivo existe, false en caso contrario.
@@ -74,8 +74,8 @@ public interface IFile<T> {
     
     /**
      * Crea un archivo si no existe.
-     * Este método es útil para inicializar archivos de datos vacíos.
-     * Si el archivo ya existe, no realiza ninguna acción.
+     *                      Este método es útil para inicializar archivos de datos vacíos.
+     *                      Si el archivo ya existe, no realiza ninguna acción.
      *
      * @param filePath Ruta del archivo.
      * @throws FileException Si ocurre un error al crear el archivo.

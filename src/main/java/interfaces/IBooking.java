@@ -34,8 +34,8 @@ public interface IBooking {
     
     /**
      * Crea una nueva reserva.
-     * Verifica la disponibilidad de la habitación en las fechas solicitadas
-     * y actualiza el estado de ocupación correspondiente.
+     *                       Verifica la disponibilidad de la habitación en las fechas solicitadas
+     *                       y actualiza el estado de ocupación correspondiente.
      * 
      * @param booking Reserva a crear.
      * @throws BookingException Si la reserva ya existe o los datos son inválidos.
@@ -53,7 +53,7 @@ public interface IBooking {
 
     /**
      * Cancela una reserva existente.
-     * Actualiza el estado de la habitación si corresponde.
+     *                      Actualiza el estado de la habitación si corresponde.
      * 
      * @param id Identificador de la reserva a cancelar.
      * @throws BookingException Si la reserva no existe o no se puede cancelar.
@@ -62,7 +62,7 @@ public interface IBooking {
 
     /**
      * Actualiza una reserva existente.
-     * Modifica los datos de la reserva manteniendo el mismo ID.
+     *                       Modifica los datos de la reserva manteniendo el mismo ID.
      * 
      * @param booking Reserva con los datos actualizados.
      * @throws BookingException Si la reserva no existe o los datos son inválidos.
@@ -80,10 +80,10 @@ public interface IBooking {
 
     /**
      * Obtiene todas las reservas de una habitación.
-     *            Incluye reservas:
-     *               -Pasadas
-     *               -Actuales
-     *               -Futuras
+     *                      Incluye reservas:
+     *                          -Pasadas
+     *                          -Actuales
+     *                          -Futuras
      * 
      * @param roomId ID de la habitación.
      * @return Lista de reservas de la habitación.
@@ -93,8 +93,8 @@ public interface IBooking {
 
     /**
      * Verifica si una habitación está disponible en un rango de fechas.
-     * Comprueba que no existan reservas que se solapen con el período especificado
-     * y que la habitación no esté en mantenimiento.
+     *                      Comprueba que no existan reservas que se solapen con el período especificado
+     *                      y que la habitación no esté en mantenimiento.
      * 
      * @param roomId ID de la habitación.
      * @param startDate Fecha de inicio.
@@ -106,7 +106,7 @@ public interface IBooking {
 
     /**
      * Obtiene reservas en un rango de fechas.
-     * Devuelve todas las reservas que tengan alguna superposición con el período especificado.
+     *                      Devuelve todas las reservas que tengan alguna superposición con el período especificado.
      * 
      * @param startDate Fecha de inicio.
      * @param endDate Fecha de fin.
@@ -117,8 +117,8 @@ public interface IBooking {
 
     /**
      * Obtiene las reservas actuales (en curso).
-     * Devuelve las reservas cuya fecha de inicio es anterior al momento actual
-     * y cuya fecha de finalización es posterior al momento actual.
+     *                      Devuelve las reservas cuya fecha de inicio es anterior al momento actual
+     *                      y cuya fecha de finalización es posterior al momento actual.
      * 
      * @return Lista de reservas en curso.
      * @throws BookingException Si ocurre un error al obtener las reservas.
@@ -127,7 +127,7 @@ public interface IBooking {
 
     /**
      * Obtiene las reservas futuras.
-     * Devuelve las reservas cuya fecha de inicio es posterior al momento actual.
+     *                      Devuelve las reservas cuya fecha de inicio es posterior al momento actual.
      * 
      * @return Lista de reservas futuras.
      * @throws BookingException Si ocurre un error al obtener las reservas.

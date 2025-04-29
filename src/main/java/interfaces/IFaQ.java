@@ -33,10 +33,10 @@ public interface IFaQ {
     
     /**
      * Agrega una nueva pregunta frecuente.
-     * La pregunta debe contener:
-     *                    -ID único
-     *                    -La pregunta y su respuesta.
-     * Las preguntas nuevas pueden ser marcadas como pendientes de revisión por un administrador.
+     *                      La pregunta debe contener:
+     *                          -ID único
+     *                          -La pregunta y su respuesta.
+     *                      Las preguntas nuevas pueden ser marcadas como pendientes de revisión por un administrador.
      *
      * @param faq Pregunta frecuente a agregar.
      * @throws FaQException Si ocurre un error al agregar la FAQ.
@@ -54,8 +54,8 @@ public interface IFaQ {
 
     /**
      * Obtiene una lista de preguntas pendientes.
-     *             Las preguntas pendientes son aquellas que han sido enviadas por usuarios
-     *             y que requieren revisión por parte de un administrador antes de ser publicadas.
+     *                      Las preguntas pendientes son aquellas que han sido enviadas por usuarios
+     *                      y que requieren revisión por parte de un administrador antes de ser publicadas.
      * 
      * @return La pregunta frecuente correspondiente.
      * @throws FaQException Si la FAQ no existe.
@@ -64,8 +64,8 @@ public interface IFaQ {
 
     /**
      * Verificca que no existan preguntas frecuentes pendientes.
-     * Este método es útil para notificar a los administradores sobre preguntas
-     * que requieren su atención.
+     *                      Este método es útil para notificar a los administradores sobre preguntas
+     *                      que requieren su atención.
      * 
      * @return true si tenemos FaQ pendientes, false si no.
      * @throws FaQException si tenemos un error al verificar pending questions
@@ -74,11 +74,11 @@ public interface IFaQ {
 
     /**
      * Actualiza una pregunta frecuente existente.
-     * Permite modificar:
-     *             -Pregunta
-     *             -Respuesta
-     *             -Categoría o estado (pendiente/publicada)
-     *              de una FAQ existente.
+     *                      Permite modificar:
+     *                          -Pregunta
+     *                          -Respuesta
+     *                          -Categoría o estado (pendiente/publicada)
+     *                      de una FAQ existente.
      *
      * @param faq Pregunta frecuente con los datos actualizados.
      * @throws FaQException Si la FAQ no existe o los datos son inválidos.
@@ -87,7 +87,7 @@ public interface IFaQ {
     
     /**
      * Elimina una pregunta frecuente.
-     * Solo los administradores pueden eliminar preguntas frecuentes del sistema.
+     *                      Solo los administradores pueden eliminar preguntas frecuentes del sistema.
      *
      * @param id Identificador de la FAQ a eliminar.
      * @throws FaQException Si la FAQ no existe.
@@ -96,7 +96,7 @@ public interface IFaQ {
     
     /**
      * Obtiene todas las preguntas frecuentes registradas.
-     * Incluye tanto las preguntas publicadas como las pendientes de revisión.
+     *                      Incluye tanto las preguntas publicadas como las pendientes de revisión.
      *
      * @return Lista de preguntas frecuentes.
      * @throws FaQException Si ocurre un error al obtener las FAQ.

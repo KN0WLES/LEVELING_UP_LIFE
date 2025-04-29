@@ -32,13 +32,13 @@ import java.util.List;
 public interface IRoom {
     /**
      * Agrega una nueva habitación.
-     * La habitación debe contener:
-     *                       -ID único
-     *                       -Nombre
-     *                       -Tipo
-     *                       -Precio
-     *                       -Estado inicial.
-     *                        El sistema validará que no exista otra habitación con el mismo ID.
+     *                      La habitación debe contener:
+     *                          -ID único
+     *                          -Nombre
+     *                          -Tipo
+     *                          -Precio
+     *                          -Estado inicial.
+     *                       El sistema validará que no exista otra habitación con el mismo ID.
      *
      * @param room Habitación a agregar.
      * @throws RoomException Si ocurre un error al agregar la habitación.
@@ -64,8 +64,8 @@ public interface IRoom {
 
     /**
      * Elimina una habitación.
-     * Remueve completamente la habitación del sistema. Esta operación solo debe realizarse
-     * cuando la habitación ya no está en uso y no tiene reservas asociadas.
+     *                      Remueve completamente la habitación del sistema. Esta operación solo debe realizarse
+     *                      cuando la habitación ya no está en uso y no tiene reservas asociadas.
      * 
      * @param id Identificador de la habitación a eliminar.
      * @throws RoomException Si la habitación no existe.
@@ -74,8 +74,8 @@ public interface IRoom {
 
     /**
      * Obtiene habitaciones por tipo.
-     * Los tipos pueden ser: 'I' (Individual), 'D' (Doble), 'S' (Suite), etc.,
-     * según la clasificación establecida en el sistema.
+     *                      Los tipos pueden ser: 'I' (Individual), 'D' (Doble), 'S' (Suite), etc.,
+     *                      según la clasificación establecida en el sistema.
      * 
      * @param type Tipo de habitación.
      * @return Lista de habitaciones del tipo especificado.
@@ -85,7 +85,7 @@ public interface IRoom {
 
     /**
      * Obtiene habitaciones disponibles.
-     * Una habitación disponible es aquella que no está ocupada ni en mantenimiento.
+     *                      Una habitación disponible es aquella que no está ocupada ni en mantenimiento.
      * 
      * @return Lista de habitaciones disponibles.
      * @throws RoomException Si ocurre un error al obtener las habitaciones.
@@ -94,7 +94,7 @@ public interface IRoom {
 
     /**
      * Establece el estado de mantenimiento de una habitación.
-     * Cuando una habitación está en mantenimiento, no puede ser reservada ni ocupada.
+     *                      Cuando una habitación está en mantenimiento, no puede ser reservada ni ocupada.
      * 
      * @param roomId Identificador de la habitación.
      * @param inMaintenance true si la habitación está en mantenimiento, false en caso contrario.
@@ -104,7 +104,7 @@ public interface IRoom {
 
     /**
      * Establece el estado de ocupación de una habitación.
-     * Este método se utiliza cuando un huésped ocupa o desocupa una habitación.
+     *                      Este método se utiliza cuando un huésped ocupa o desocupa una habitación.
      * 
      * @param roomId Identificador de la habitación.
      * @param occupied true si la habitación está ocupada, false en caso contrario.

@@ -32,13 +32,13 @@ public interface IProduct {
     
     /**
      * Agrega un nuevo producto.
-     * El producto debe contener:
-     *                   -ID único
-     *                   -Nombre
-     *                   -Precio
-     *                   -Stock
-     *                   -Categoría.
-     *                   El sistema validará que no exista otro producto con el mismo ID.
+     *                      El producto debe contener:
+     *                          -ID único
+     *                          -Nombre
+     *                          -Precio
+     *                          -Stock
+     *                          -Categoría.
+     *                      El sistema validará que no exista otro producto con el mismo ID.
      *
      * @param product Producto a agregar.
      * @throws ProductException Si ocurre un error al agregar el producto.
@@ -56,12 +56,12 @@ public interface IProduct {
     
     /**
      * Actualiza un producto existente.
-     * Permite modificar:
-     *                 -Nombreprecio
-     *                 -Descripción
-     *                 -Categoría
-     *                 -Otras propiedades
-     *                  del producto, manteniendo su ID original.
+     *                      Permite modificar:
+     *                          -Nombreprecio
+     *                          -Descripción
+     *                          -Categoría
+     *                          -Otras propiedades
+     *                      del producto, manteniendo su ID original.
      *
      * @param product Producto con los datos actualizados.
      * @throws ProductException Si el producto no existe o los datos son inválidos.
@@ -70,8 +70,8 @@ public interface IProduct {
     
     /**
      * Elimina un producto.
-     * Remueve completamente el producto del inventario. Solo debe ser utilizado
-     * cuando se descontinúa un producto, ya que la eliminación es permanente.
+     *                      Remueve completamente el producto del inventario. Solo debe ser utilizado
+     *                      cuando se descontinúa un producto, ya que la eliminación es permanente.
      *
      * @param id Identificador del producto a eliminar.
      * @throws ProductException Si el producto no existe.
@@ -89,7 +89,7 @@ public interface IProduct {
     
     /**
      * Obtiene productos disponibles.
-     * Un producto disponible es aquel que tiene stock mayor a cero.
+     *                      Un producto disponible es aquel que tiene stock mayor a cero.
      * 
      * @return Lista de productos disponibles.
      * @throws ProductException Si ocurre un error al obtener los productos.
@@ -98,7 +98,7 @@ public interface IProduct {
 
     /**
      * Compra un producto reduciendo su stock.
-     * Verifica que haya suficiente stock disponible antes de realizar la compra.
+     *                      Verifica que haya suficiente stock disponible antes de realizar la compra.
      * 
      * @param id Identificador del producto.
      * @param quantity Cantidad a comprar.
@@ -108,7 +108,7 @@ public interface IProduct {
     
     /**
      * Actualiza el stock de un producto.
-     * Permite incrementar o decrementar el stock disponible de un producto.
+     *                      Permite incrementar o decrementar el stock disponible de un producto.
      * 
      * @param id Identificador del producto.
      * @param quantity Cantidad a agregar (positivo) o quitar (negativo).
