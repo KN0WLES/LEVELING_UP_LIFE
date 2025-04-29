@@ -8,12 +8,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Clase que actúa como controlador para la gestión de cuentas de usuario.
+ * Proporciona la lógica de negocio necesaria para registrar, iniciar sesión, actualizar, eliminar cuentas
+ * y gestionar privilegios de administrador.
+ * Los datos de las cuentas se almacenan y recuperan desde un archivo utilizando un manejador de archivos genérico.
+ * 
+ * @description Funcionalidades principales:
+ *                   - Registrar nuevas cuentas de usuario.
+ *                   - Iniciar sesión con credenciales de usuario.
+ *                   - Actualizar información de las cuentas (nombre, apellido, teléfono, correo electrónico, contraseña).
+ *                   - Eliminar cuentas de usuario.
+ *                   - Gestionar privilegios de administrador.
+ *                   - Recuperar cuentas por nombre de usuario, correo electrónico o ID.
+ *                   - Listar todas las cuentas registradas.
+ * 
  * @author KNOWLES
  * @version 1.0
- * @since 2023-10-01
- * @description Controlador de cuentas que maneja la lógica de negocio relacionada con las cuentas de usuario.
- *              Este controlador permite registrar, iniciar sesión, actualizar información de cuentas,
- *              eliminar cuentas y gestionar privilegios de administrador.
+ * @since 2025-04-29
  * @see IAccount
  * @see Account
  * @see IFile

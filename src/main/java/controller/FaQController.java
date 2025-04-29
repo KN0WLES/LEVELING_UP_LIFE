@@ -7,10 +7,36 @@ import exceptions.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Clase que actúa como controlador para la gestión de preguntas frecuentes (FAQs).
+ * Proporciona la lógica de negocio necesaria para agregar, actualizar, eliminar y consultar FAQs.
+ * También permite listar FAQs pendientes de respuesta y gestionar su contenido.
+ * Los datos de las FAQs se almacenan y recuperan desde un archivo utilizando un manejador de archivos genérico.
+ * 
+ * @description Funcionalidades principales:
+ *                   - Agregar nuevas FAQs.
+ *                   - Actualizar preguntas y respuestas de FAQs existentes.
+ *                   - Eliminar FAQs.
+ *                   - Consultar FAQs por ID.
+ *                   - Listar todas las FAQs registradas.
+ *                   - Listar FAQs pendientes de respuesta.
+ *                   - Verificar si existen FAQs pendientes.
+ * 
+ *             Al inicializar, crea FAQs predeterminadas si no existen datos previos.
+ * 
+ * @author KNOWLES
+ * @version 1.0
+ * @since 2025-04-29
+ * @see IFaQ
+ * @see FaQ
+ * @see IFile
+ * @see FileException
+ * @see FaQException
+ */
 public class FaQController implements IFaQ {
     
     private final IFile<FaQ> fileHandler;
-    private final String filePath = "C:/Users/HP/Downloads/VTerminado-4/V1-4/src/main/java/data/faqs.txt";
+    private final String filePath = "/src/main/java/data/faqs.txt";
     private List<FaQ> faqs;
 
     public FaQController(IFile<FaQ> fileHandler) throws FaQException{
@@ -19,13 +45,10 @@ public class FaQController implements IFaQ {
             this.fileHandler.createFileIfNotExists(filePath);
             this.faqs = this.fileHandler.loadData(filePath);
 
-            // Verificar si hay FAQs cargadas
             if (this.faqs == null || this.faqs.isEmpty()) {
-                // Crear cuenta por defecto
-                //Account defaultAdmin = new Account("", "", "", "", "admin", "admin");
                 FaQ default1FaQ = new FaQ("Donde se encuentran ubicados","Calle Almagro 11, Madrid - CIF B65739856");
                 FaQ default2FaQ = new FaQ("Contactos","Teléfono: 4258813 Whatsapp: 65486014 Correo: info@unicorn.com.bo");
-                this.faqs = new ArrayList<>(); // Inicializar la lista si es nula
+                this.faqs = new ArrayList<>();
                 this.faqs.add(default1FaQ);
                 this.faqs.add(default2FaQ);
                 saveChanges();
@@ -46,7 +69,6 @@ public class FaQController implements IFaQ {
 
     @Override
     public void addFaq(FaQ faq) throws FaQException {
-        // Verificar si ya existe una pregunta similar
         if (faqs.stream().anyMatch(f -> f.getPregunta().equalsIgnoreCase(faq.getPregunta()))) {
             throw new FaQException("Esta pregunta ya existe en el sistema");
         }
@@ -65,10 +87,8 @@ public class FaQController implements IFaQ {
 
     @Override
     public void updateFaq(FaQ faq) throws FaQException {
-        // Verificar si el FAQ existe
         FaQ existingFaq = getFaqById(faq.getId());
         
-        // Actualizar los campos
         existingFaq.setPregunta(faq.getPregunta());
         existingFaq.setRespuesta(faq.getRespuesta());
         existingFaq.setPendiente(false);
@@ -88,12 +108,10 @@ public class FaQController implements IFaQ {
 
     @Override
     public void deleteFaq(String id) throws FaQException {
-        // Verificar si el FAQ existe
         FaQ existingFaq = getFaqById(id);
         
-        if (!faqs.remove(existingFaq)) {
-            throw new FaQException("No se pudo eliminar el FAQ");
-        }
+        if (!faqs.remove(existingFaq)) throw new FaQException("No se pudo eliminar el FAQ");
+
         saveChanges();
     }
 

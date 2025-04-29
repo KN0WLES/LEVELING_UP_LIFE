@@ -8,10 +8,35 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Clase que actúa como controlador para la gestión de habitaciones.
+ * Proporciona la lógica de negocio necesaria para agregar, actualizar, eliminar y consultar habitaciones.
+ * También permite gestionar la disponibilidad, el mantenimiento y la ocupación de las habitaciones.
+ * Los datos de las habitaciones se almacenan y recuperan desde un archivo utilizando un manejador de archivos genérico.
+ * 
+ * @desciption Funcionalidades principales:
+ *                   - Agregar nuevas habitaciones.
+ *                   - Actualizar información de habitaciones existentes.
+ *                   - Eliminar habitaciones.
+ *                   - Consultar habitaciones por ID o tipo.
+ *                   - Gestionar la disponibilidad de habitaciones.
+ *                   - Establecer habitaciones en mantenimiento u ocupadas.
+ *                   - Listar habitaciones disponibles o por tipo.
+ *                   - Crear habitaciones predeterminadas si no existen.
+ * 
+ * @author KNOWLES
+ * @version 1.0
+ * @since 2025-04-29
+ * @see IRoom
+ * @see Room
+ * @see IFile
+ * @see FileException
+ * @see RoomException
+ */
 public class RoomController implements IRoom {
     
     private final IFile<Room> fileHandler;
-    private final String filePath = "C:/Users/HP/Downloads/VTerminado-4/V1-4/src/main/java/data/rooms.txt";
+    private final String filePath = "/src/main/java/data/rooms.txt";
     private List<Room> rooms;
 
     public RoomController(IFile<Room> fileHandler)throws RoomException {
@@ -20,9 +45,8 @@ public class RoomController implements IRoom {
             this.fileHandler.createFileIfNotExists(filePath);
             this.rooms = this.fileHandler.loadData(filePath);
 
-            // Verificar si hay salas cargadas
             if (this.rooms == null || this.rooms.isEmpty()) {
-                this.rooms = new ArrayList<>(); // Inicializar la lista si es nula
+                this.rooms = new ArrayList<>();
                 createDefaultRooms();
                 saveChanges();
             }
@@ -42,7 +66,6 @@ public class RoomController implements IRoom {
 
     @Override
     public void addRoom(Room room) throws RoomException {
-        // Verificar si ya existe una habitación con el mismo nombre
         if (rooms.stream().anyMatch(r -> r.getNombre().equalsIgnoreCase(room.getNombre()))) {
             throw new RoomException("Ya existe una habitación con este nombre");
         }
@@ -61,10 +84,8 @@ public class RoomController implements IRoom {
 
     @Override
     public void updateRoom(Room room) throws RoomException {
-        // Buscar la habitación para asegurar que existe
         Room existingRoom = getRoomById(room.getId());
         
-        // Verificar si el nuevo nombre ya está en uso por otra habitación
         if (!existingRoom.getNombre().equals(room.getNombre()) &&
             rooms.stream()
                 .filter(r -> !r.getId().equals(room.getId()))
@@ -72,7 +93,6 @@ public class RoomController implements IRoom {
             throw new RoomException("Ya existe una habitación con este nombre");
         }
         
-        // La forma más fácil de actualizar es reemplazar la habitación en la lista
         rooms.removeIf(r -> r.getId().equals(room.getId()));
         rooms.add(room);
         
@@ -81,13 +101,9 @@ public class RoomController implements IRoom {
 
     @Override
     public void deleteRoom(String id) throws RoomException {
-        // Verificar que la habitación exista
         Room room = getRoomById(id);
         
-        // Verificar si la habitación está ocupada
-        if (!room.isDisponible()) {
-            throw RoomException.isOccupied();
-        }
+        if (!room.isDisponible()) throw RoomException.isOccupied();
         
         rooms.removeIf(r -> r.getId().equals(id));
         saveChanges();
@@ -95,9 +111,7 @@ public class RoomController implements IRoom {
 
     @Override
     public List<Room> getRoomsByType(char type) throws RoomException {
-        if (!"IPDM".contains(String.valueOf(type))) {
-            throw RoomException.invalidType();
-        }
+        if (!"IPDM".contains(String.valueOf(type))) throw RoomException.invalidType();
         
         return rooms.stream()
                 .filter(r -> r.getTipo() == type)
@@ -114,8 +128,7 @@ public class RoomController implements IRoom {
     @Override
     public void setRoomMaintenance(String roomId, boolean inMaintenance) throws RoomException {
         Room room = getRoomById(roomId);
-        
-        // Si está en mantenimiento, no está disponible
+
         room.setDisponible(!inMaintenance);
         saveChanges();
     }
@@ -123,14 +136,12 @@ public class RoomController implements IRoom {
     @Override
     public void setRoomOccupied(String roomId, boolean occupied) throws RoomException {
         Room room = getRoomById(roomId);
-        
-        // Actualizar disponibilidad (inversa de ocupado)
+
         room.setDisponible(!occupied);
         saveChanges();
     }
 
     private void createDefaultRooms() throws RoomException {
-        // Salas individuales (I) - 50 salas distribuidas en 5 pisos
         for (int piso = 1; piso <= 5; piso++) {
             for (int sala = 1; sala <= 10; sala++) {
                 String id = String.format("I%d%02d", piso, sala);
@@ -138,7 +149,6 @@ public class RoomController implements IRoom {
             }
         }
         
-        // Salas privadas (P) - 20 salas distribuidas en 4 pisos
         for (int piso = 1; piso <= 4; piso++) {
             for (int sala = 1; sala <= 5; sala++) {
                 String id = String.format("P%d%02d", piso, sala);
@@ -146,7 +156,6 @@ public class RoomController implements IRoom {
             }
         }
         
-        // Dormitorios (D) - 30 dormitorios distribuidos en 6 pisos
         for (int piso = 1; piso <= 6; piso++) {
             for (int sala = 1; sala <= 5; sala++) {
                 String id = String.format("D%d%02d", piso, sala);
@@ -154,7 +163,6 @@ public class RoomController implements IRoom {
             }
         }
         
-        // Salas mixtas (M) - 15 salas distribuidas en 3 pisos
         for (int piso = 1; piso <= 3; piso++) {
             for (int sala = 1; sala <= 5; sala++) {
                 String id = String.format("M%d%02d", piso, sala);

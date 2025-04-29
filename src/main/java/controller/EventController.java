@@ -9,10 +9,31 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Clase que actúa como controlador para la gestión de eventos.
+ * Proporciona la lógica de negocio necesaria para crear, cancelar, buscar, listar y gestionar participantes de eventos.
+ * Los datos de los eventos se almacenan y recuperan desde un archivo utilizando un manejador de archivos genérico.
+ * 
+  * @description Funcionalidades principales:
+ *                   - Crear un nuevo evento.
+ *                   - Cancelar un evento existente.
+ *                   - Agregar o remover participantes de un evento.
+ *                   - Buscar eventos por ID o por fecha.
+ *                   - Listar todos los eventos o solo los eventos activos.
+ * 
+ * @author KNOWLES
+ * @version 1.0
+ * @since 2025-04-29
+ * @see IEvent
+ * @see Event
+ * @see IFile
+ * @see FileException
+ * @see EventException
+ */
 public class EventController implements IEvent {
     
     private final IFile<Event> fileHandler;
-    private final String filePath = "C:/Users/HP/Downloads/VTerminado-4/V1-4/src/main/java/data/events.txt";
+    private final String filePath = "/src/main/java/data/events.txt";
     private List<Event> events;
 
     public EventController(IFile<Event> fileHandler) {
@@ -36,7 +57,6 @@ public class EventController implements IEvent {
 
     @Override
     public void crearEvento(Event evento) throws EventException {
-        // Validaciones adicionales podrían ir aquí
         events.add(evento);
         saveChanges();
     }
@@ -45,15 +65,10 @@ public class EventController implements IEvent {
     public void cancelarEvento(String eventId) throws EventException {
         Event evento = buscarPorId(eventId);
         
-        if (evento == null) {
-            throw EventException.eventoNoEncontrado();
-        }
+        if (evento == null) throw EventException.eventoNoEncontrado();
         
-        // Como no hay un método para cancelar el evento, tendríamos que añadir un campo
-        // 'canceled' a la clase Event
-        // evento.setCanceled(true);
-        
-        // Por ahora, podemos eliminarlo como alternativa
+        //! Como no hay un método para cancelar el evento, se elimina de la lista.
+
         events.removeIf(e -> e.getId().equals(eventId));
         saveChanges();
     }
@@ -62,17 +77,11 @@ public class EventController implements IEvent {
     public boolean agregarParticipante(String eventId, String accountId) throws EventException {
         Event evento = buscarPorId(eventId);
         
-        if (evento == null) {
-            throw EventException.eventoNoEncontrado();
-        }
+        if (evento == null) throw EventException.eventoNoEncontrado();
         
-        if (evento.getParticipantes().size() >= evento.getCapacidad()) {
-            throw EventException.eventoLleno();
-        }
+        if (evento.getParticipantes().size() >= evento.getCapacidad()) throw EventException.eventoLleno();
         
-        if (evento.getParticipantes().contains(accountId)) {
-            throw EventException.participanteYaRegistrado();
-        }
+        if (evento.getParticipantes().contains(accountId)) throw EventException.participanteYaRegistrado();
         
         boolean result = evento.addParticipante(accountId);
         saveChanges();
@@ -83,9 +92,7 @@ public class EventController implements IEvent {
     public boolean removerParticipante(String eventId, String accountId) throws EventException {
         Event evento = buscarPorId(eventId);
         
-        if (evento == null) {
-            throw EventException.eventoNoEncontrado();
-        }
+        if (evento == null) throw EventException.eventoNoEncontrado();
         
         if (!evento.getParticipantes().contains(accountId)) {
             throw new EventException("El participante no está registrado en este evento");
@@ -111,7 +118,6 @@ public class EventController implements IEvent {
         
         return events.stream()
                 .filter(e -> {
-                    // Verificar si el evento ocurre en la fecha especificada
                     return (e.getFechaInicio().isEqual(inicioDia) || e.getFechaInicio().isAfter(inicioDia)) &&
                            (e.getFechaInicio().isEqual(finDia) || e.getFechaInicio().isBefore(finDia));
                 })
@@ -120,8 +126,7 @@ public class EventController implements IEvent {
 
     @Override
     public List<Event> listarEventosActivos() throws EventException {
-        LocalDateTime ahora = LocalDateTime.now();
-        
+        LocalDateTime ahora = LocalDateTime.now();    
         return events.stream()
                 .filter(e -> e.getFechaFin().isAfter(ahora))
                 .collect(Collectors.toList());

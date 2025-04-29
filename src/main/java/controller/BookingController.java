@@ -9,11 +9,35 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Clase que actúa como controlador para la gestión de reservas.
+ * Proporciona la lógica de negocio necesaria para crear, actualizar, cancelar y consultar reservas.
+ * También gestiona la disponibilidad de habitaciones y verifica conflictos entre reservas.
+ * Los datos de las reservas se almacenan y recuperan desde un archivo utilizando un manejador de archivos genérico.
+ * 
+ * @description Funcionalidades principales:
+ *                   - Crear una nueva reserva.
+ *                   - Actualizar una reserva existente.
+ *                   - Cancelar una reserva.
+ *                   - Consultar reservas por usuario, habitación o rango de fechas.
+ *                   - Verificar la disponibilidad de habitaciones.
+ *                   - Listar reservas actuales, futuras o todas las reservas.
+ * 
+ * @author KNOWLES
+ * @version 1.0
+ * @since 2025-04-29
+ * @see IBooking
+ * @see Booking
+ * @see IFile
+ * @see FileException
+ * @see BookingException
+ * @see RoomController
+ */
 public class BookingController implements IBooking {
     
     private final IFile<Booking> fileHandler;
     private final RoomController roomController;
-    private final String filePath = "C:/Users/HP/Downloads/VTerminado-4/V1-4/src/main/java/data/bookings.txt";
+    private final String filePath = "/src/main/java/data/bookings.txt";
     private List<Booking> bookings;
 
     public BookingController(IFile<Booking> fileHandler, RoomController roomController) {
@@ -50,18 +74,16 @@ public class BookingController implements IBooking {
     public Booking createBooking(String accountId, String roomId, LocalDateTime fechaInicio, int horas) 
             throws BookingException, RoomException {
         Room room = roomController.getRoomById(roomId);
-        if (!room.isDisponible()) {
-            throw BookingException.roomNotAvailable();
-        }
+        if (!room.isDisponible()) throw BookingException.roomNotAvailable();
+
         LocalDateTime fechaFin = fechaInicio.plusHours(horas);
         boolean overlap = bookings.stream()
                 .filter(b -> b.getRoomId().equals(roomId))
                 .anyMatch(b ->
                     (fechaInicio.isBefore(b.getFechaFin()) && fechaFin.isAfter(b.getFechaInicio()))
                 );
-        if (overlap) {
-            throw BookingException.duplicateBooking();
-        }
+        if (overlap) throw BookingException.duplicateBooking();
+
         Booking booking = new Booking(accountId, roomId, fechaInicio, horas, room.getPrecioPorHora());
         bookings.add(booking);
         if (fechaInicio.isBefore(LocalDateTime.now()) && fechaFin.isAfter(LocalDateTime.now())) {
@@ -74,9 +96,7 @@ public class BookingController implements IBooking {
     @Override
     public void updateBooking(Booking booking) throws BookingException {
         Booking existingBooking = getBookingById(booking.getId());
-        if (existingBooking == null) {
-            throw BookingException.notFound();
-        }
+        if (existingBooking == null) throw BookingException.notFound();
         existingBooking.setFechaInicio(booking.getFechaInicio());
         existingBooking.setHoras(booking.getHoras());
         existingBooking.setTotal(booking.getTotal());
@@ -86,9 +106,7 @@ public class BookingController implements IBooking {
     @Override
 public void cancelBooking(String bookingId) throws BookingException, RoomException {
         Booking booking = getBookingById(bookingId);
-        if (booking == null) {
-            throw BookingException.notFound();
-        }
+        if (booking == null) throw BookingException.notFound();
         LocalDateTime now = LocalDateTime.now();
         if (now.isAfter(booking.getFechaInicio()) && now.isBefore(booking.getFechaFin())) {
             roomController.setRoomOccupied(booking.getRoomId(), false);

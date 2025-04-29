@@ -1,19 +1,41 @@
 package controller;
 
-import interfaces.IProduct;
-import interfaces.IFile;
+import interfaces.*;
 import model.Product;
-import exceptions.ProductException;
-import exceptions.FileException;
+import exceptions.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Clase que actúa como controlador para la gestión de productos.
+ * Proporciona la lógica de negocio necesaria para agregar, actualizar, eliminar y consultar productos.
+ * También permite gestionar el stock, realizar compras y listar productos por categoría o disponibilidad.
+ * Los datos de los productos se almacenan y recuperan desde un archivo utilizando un manejador de archivos genérico.
+ * 
+ * @desciption Funcionalidades principales:
+ *                   - Agregar nuevos productos.
+ *                   - Actualizar información de productos existentes.
+ *                   - Eliminar productos.
+ *                   - Consultar productos por ID o categoría.
+ *                   - Gestionar el stock de productos.
+ *                   - Realizar compras de productos.
+ *                   - Listar productos disponibles o por categoría.
+ * 
+ * @author KNOWLES
+ * @version 1.0
+ * @since 2025-04-29
+ * @see IProduct
+ * @see Product
+ * @see IFile
+ * @see FileException
+ * @see ProductException
+ */
 public class ProductController implements IProduct {
     
     private final IFile<Product> fileHandler;
-    private final String filePath = "C:/Users/HP/Downloads/VTerminado-4/V1-4/src/main/java/data/products.txt";
+    private final String filePath = "/src/main/java/data/products.txt";
     private List<Product> products;
 
     public ProductController(IFile<Product> fileHandler) throws ProductException {
@@ -42,7 +64,6 @@ public class ProductController implements IProduct {
 
     @Override
     public void addProduct(Product product) throws ProductException {
-        // Verificar si ya existe un producto con el mismo nombre
         if (products.stream().anyMatch(p -> p.getNombre().equalsIgnoreCase(product.getNombre()))) {
             throw new ProductException("Ya existe un producto con este nombre");
         }
@@ -61,10 +82,8 @@ public class ProductController implements IProduct {
 
     @Override
     public void updateProduct(Product product) throws ProductException {
-        // Buscar el producto para asegurar que existe
         Product existingProduct = getProductById(product.getId());
         
-        // Verificar si el nuevo nombre ya está en uso por otro producto
         if (!existingProduct.getNombre().equals(product.getNombre()) &&
             products.stream()
                 .filter(p -> !p.getId().equals(product.getId()))
@@ -72,7 +91,6 @@ public class ProductController implements IProduct {
             throw new ProductException("Ya existe un producto con este nombre");
         }
         
-        // La forma más fácil de actualizar es reemplazar el producto en la lista
         products.removeIf(p -> p.getId().equals(product.getId()));
         products.add(product);
         
@@ -81,20 +99,15 @@ public class ProductController implements IProduct {
 
     @Override
     public void deleteProduct(String id) throws ProductException {
-        // Verificar que el producto exista
         Product product = getProductById(id);
         
-        if (!products.remove(product)) {
-            throw new ProductException("No se pudo eliminar el producto");
-        }
+        if (!products.remove(product)) throw new ProductException("No se pudo eliminar el producto");
         saveChanges();
     }
 
     @Override
     public List<Product> getProductsByCategory(char category) throws ProductException {
-        if (!"CBP".contains(String.valueOf(category))) {
-            throw ProductException.invalidCategory();
-        }
+        if (!"CBP".contains(String.valueOf(category))) throw ProductException.invalidCategory();
         
         return products.stream()
                 .filter(p -> p.getCategoria() == category)
@@ -103,14 +116,11 @@ public class ProductController implements IProduct {
 
     @Override
     public void buyProduct(String id, int quantity) throws ProductException {
-        if (quantity <= 0) {
-            throw new ProductException("La cantidad a comprar debe ser positiva");
-        }
+        if (quantity <= 0) throw new ProductException("La cantidad a comprar debe ser positiva");
     
         Product product = getProductById(id);
-        if (product.getStock() < quantity) {
-            throw ProductException.outOfStock();
-        }
+        if (product.getStock() < quantity) throw ProductException.outOfStock();
+
         product.setStock(product.getStock() - quantity);
         saveChanges();
     }
@@ -118,11 +128,9 @@ public class ProductController implements IProduct {
     @Override
     public void updateStock(String id, int quantity) throws ProductException {
         Product product = getProductById(id);
-        int newStock = product.getStock() - quantity;
+        int newStock = product.getStock() + quantity;
     
-        if (newStock < 0) {
-        throw new ProductException("No se puede tener stock negativo");
-        }
+        if (newStock < 0) throw new ProductException("No se puede tener stock negativo");
         product.setStock(newStock);
         saveChanges();
     }
