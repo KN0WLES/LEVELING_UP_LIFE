@@ -11,14 +11,12 @@ import java.io.Console;
 
 public class AccountMenuController {
     private final AccountController accountController;
-    private final Account account;
     private final Scanner scanner;
     private Account currentLoggedAccount;
     private final Console console;
 
     public AccountMenuController(Account account) throws AccountException {
         Account prototype = new Account();
-        this.account = account;
         IFile<Account> fileHandler = new FileHandler<>(prototype);
         this.accountController = new AccountController(fileHandler);
         this.scanner = new Scanner(System.in);

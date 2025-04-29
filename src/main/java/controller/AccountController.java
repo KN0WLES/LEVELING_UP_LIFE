@@ -7,10 +7,23 @@ import exceptions.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author KNOWLES
+ * @version 1.0
+ * @since 2023-10-01
+ * @description Controlador de cuentas que maneja la lógica de negocio relacionada con las cuentas de usuario.
+ *              Este controlador permite registrar, iniciar sesión, actualizar información de cuentas,
+ *              eliminar cuentas y gestionar privilegios de administrador.
+ * @see IAccount
+ * @see Account
+ * @see IFile
+ * @see FileException
+ * @see AccountException
+ */
 public class AccountController implements IAccount {
     
     private final IFile<Account> fileHandler;
-    private final String filePath = "C:/Users/HP/Downloads/VTerminado-4/V1-4/src/main/java/data/accounts.txt";
+    private final String filePath = "/src/main/java/data/accounts.txt";
     private List<Account> accounts;
 
     public AccountController(IFile<Account> fileHandler) throws AccountException {
@@ -18,14 +31,10 @@ public class AccountController implements IAccount {
         try {
             this.fileHandler.createFileIfNotExists(filePath);
             this.accounts = this.fileHandler.loadData(filePath);
-
-            // Verificar si la lista de cuentas está vacía
             if (this.accounts == null || this.accounts.isEmpty()) {
-                // Crear cuenta por defecto
-                //Account defaultAdmin = new Account("", "", "", "", "admin", "admin");
                 Account defaultAdmin = new Account("admin", "admin", "00000000", "admin@.com", "admin", "Hola1234");
                 defaultAdmin.setAdmin(true);
-                this.accounts = new ArrayList<>(); // Inicializar la lista si es nula
+                this.accounts = new ArrayList<>();
                 this.accounts.add(defaultAdmin);
                 saveChanges();
             }
@@ -45,7 +54,6 @@ public class AccountController implements IAccount {
 
     @Override
     public void registerAccount(Account account) throws AccountException {
-        // Verificar si el usuario o email ya existen
         if (accounts.stream().anyMatch(a -> a.getUser().equals(account.getUser()))) {
             throw AccountException.duplicateUser();
         }
@@ -62,13 +70,9 @@ public class AccountController implements IAccount {
     public Account login(String username, String password) throws AccountException {
         Account account = getByUsername(username);
         
-        if (account == null) {
-            throw AccountException.invalidCredentials();
-        }
+        if (account == null) throw AccountException.invalidCredentials();
         
-        if (!account.verifyPassword(password)) {
-            throw AccountException.invalidCredentials();
-        }
+        if (!account.verifyPassword(password)) throw AccountException.invalidCredentials();
         
         return account;
     }
@@ -77,9 +81,7 @@ public class AccountController implements IAccount {
     public void updateName(String username, String newName) throws AccountException {
         Account account = getByUsername(username);
         
-        if (account == null) {
-            throw AccountException.userNotFound();
-        }
+        if (account == null) throw AccountException.userNotFound();
         
         account.setNombre(newName);
         saveChanges();
@@ -89,9 +91,7 @@ public class AccountController implements IAccount {
     public void updateLast(String username, String newName) throws AccountException {
         Account account = getByUsername(username);
         
-        if (account == null) {
-            throw AccountException.userNotFound();
-        }
+        if (account == null) throw AccountException.userNotFound();
         
         account.setApellido(newName);
         saveChanges();
@@ -101,9 +101,7 @@ public class AccountController implements IAccount {
     public void updatePhone(String username, String newPhone) throws AccountException {
         Account account = getByUsername(username);
         
-        if (account == null) {
-            throw AccountException.userNotFound();
-        }
+        if (account == null) throw AccountException.userNotFound();
         
         account.setPhone(newPhone);
         saveChanges();
@@ -113,11 +111,8 @@ public class AccountController implements IAccount {
     public void updateEmail(String username, String newEmail) throws AccountException {
         Account account = getByUsername(username);
         
-        if (account == null) {
-            throw AccountException.userNotFound();
-        }
+        if (account == null) throw AccountException.userNotFound();
         
-        // Verificar si el email ya está en uso por otra cuenta
         if (accounts.stream()
                 .filter(a -> !a.getUser().equals(username))
                 .anyMatch(a -> a.getEmail().equals(newEmail))) {
@@ -132,9 +127,7 @@ public class AccountController implements IAccount {
     public void updatePassword(String username, String currentPassword, String newPassword) throws AccountException {
         Account account = getByUsername(username);
         
-        if (account == null) {
-            throw AccountException.userNotFound();
-        }
+        if (account == null) throw AccountException.userNotFound();
         
         if (!account.verifyPassword(currentPassword)) {
             throw new AccountException("La contraseña actual es incorrecta");
@@ -147,9 +140,7 @@ public class AccountController implements IAccount {
     public void resetUserPassword(String username, String newPassword) throws AccountException {
         Account account = getByUsername(username);
 
-        if (account == null) {
-            throw AccountException.userNotFound();
-        }
+        if (account == null) throw AccountException.userNotFound();
 
         account.setPassword(newPassword);
         saveChanges();
@@ -159,9 +150,7 @@ public class AccountController implements IAccount {
     public void setAdminStatus(String username, boolean isAdmin) throws AccountException {
         Account account = getByUsername(username);
         
-        if (account == null) {
-            throw AccountException.userNotFound();
-        }
+        if (account == null) throw AccountException.userNotFound();
         
         account.setAdmin(isAdmin);
         saveChanges();
@@ -195,13 +184,9 @@ public class AccountController implements IAccount {
     public void deleteAccount(String username) throws AccountException {
         Account account = getByUsername(username);
         
-        if (account == null) {
-            throw AccountException.userNotFound();
-        }
+        if (account == null) throw AccountException.userNotFound();
         
-        if (account.isAdmin()) {
-            throw AccountException.adminRestriction();
-        }
+        if (account.isAdmin()) throw AccountException.adminRestriction();
         
         accounts.removeIf(a -> a.getUser().equals(username));
         saveChanges();
