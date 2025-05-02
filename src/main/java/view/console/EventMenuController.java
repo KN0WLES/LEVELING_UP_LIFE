@@ -11,6 +11,25 @@ import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Clase que representa el controlador de menú para la gestión de eventos.
+ * Maneja la interacción del usuario con los eventos del sistema, permitiendo
+ * su creación, gestión y participación.
+ * 
+ * @description Funcionalidades principales:
+ *                   - Gestionar la creación y modificación de eventos.
+ *                   - Controlar la participación en eventos.
+ *                   - Manejar fechas y capacidad de eventos.
+ *                   - Realizar búsquedas y filtrados de eventos.
+ *                   - Validar entradas y manejar excepciones.
+ * 
+ * @author KNOWLES
+ * @version 1.0
+ * @since 2025-04-29
+ * @see EventController
+ * @see Event
+ * @see Account
+ */
 public class EventMenuController {
     private EventController controller;
     private AccountController accountController;
@@ -39,7 +58,7 @@ public class EventMenuController {
     public void showAdminMenu() {
         int option;
         do {
-            System.out.println("\n==== SECCION DE EVENTO ====");
+            mostrarMensajeCentrado("==== SISTEMA DE GESTION DE EVENTO ====");
             System.out.println("1. Ver todos los Evento");
             System.out.println("2. Ver Eventos Activos");
             System.out.println("3. Buscar Eventos por ID");
@@ -89,7 +108,7 @@ public class EventMenuController {
     public void showUserMenu() {
         int option;
         do {
-            System.out.println("\n==== SECCION DE EVENTOS ====");
+            mostrarMensajeCentrado("==== SISTEMA DE GESTION DE EVENTOS ====");
             System.out.println("1. Ver cartelera de Eventos");
             System.out.println("2. Registrarse en Evento");
             System.out.println("0. Volver al menú principal");
@@ -116,19 +135,19 @@ public class EventMenuController {
     }
 
     private void mostrarTodosLosEventos() throws EventException {
-        System.out.println("\n==== LISTADO DE TODOS LOS EVENTOS ====");
+        mostrarMensajeCentrado("==== LISTADO DE TODOS LOS EVENTOS ====");
         List<Event> eventos = controller.listarTodos();
         mostrarListaEventos(eventos);
     }
 
     private void mostrarEventosActivos() throws EventException {
-        System.out.println("\n==== EVENTOS ACTIVOS ====");
+        mostrarMensajeCentrado("==== EVENTOS ACTIVOS ====");
         List<Event> eventos = controller.listarEventosActivos();
         mostrarListaEventos(eventos);
     }
 
     private void buscarEventoPorId() throws EventException {
-        System.out.println("\n==== BUSCAR EVENTO POR ID ====");
+        mostrarMensajeCentrado("==== BUSCAR EVENTO POR ID ====");
         System.out.print("ID del evento: ");
         String id = scanner.nextLine();
         Event evento = controller.buscarPorId(id);
@@ -140,14 +159,14 @@ public class EventMenuController {
     }
 
     private void buscarEventosPorFecha() throws EventException {
-        System.out.println("\n==== BUSCAR EVENTOS POR FECHA ====");
+        mostrarMensajeCentrado("==== BUSCAR EVENTOS POR FECHA ====");
         LocalDateTime fecha = leerFecha("Ingrese la fecha (dd/MM/yyyy HH:mm): ");
         List<Event> eventos = controller.buscarPorFecha(fecha);
         mostrarListaEventos(eventos);
     }
 
     private void crearEvento() throws EventException {
-        System.out.println("\n==== CREAR NUEVO EVENTO ====");
+        mostrarMensajeCentrado("==== CREAR NUEVO EVENTO ====");
         
         System.out.print("Nombre del evento: ");
         String nombre = scanner.nextLine();
@@ -171,7 +190,7 @@ public class EventMenuController {
     }
 
     private void cancelarEvento() throws EventException {
-        System.out.println("\n==== CANCELAR EVENTO ====");
+        mostrarMensajeCentrado("==== CANCELAR EVENTO ====");
         System.out.print("ID del evento a cancelar: ");
         String id = scanner.nextLine();
         
@@ -193,7 +212,7 @@ public class EventMenuController {
     }
 
     private void gestionarParticipantes() throws EventException {
-        System.out.println("\n==== GESTIÓN DE PARTICIPANTES ====");
+        mostrarMensajeCentrado("==== GESTIÓN DE PARTICIPANTES ====");
         System.out.print("ID del evento: ");
         String eventId = scanner.nextLine();
         
@@ -260,7 +279,7 @@ public class EventMenuController {
     }
 
     private void mostrarDetallesEvento(Event evento) {
-        System.out.println("\nDetalles del evento:");
+        mostrarMensajeCentrado("Detalles del evento:");
         System.out.println("ID: " + evento.getId());
         System.out.println("Nombre: " + evento.getNombre());
         System.out.println("Tipo: " + getTipoEvento(evento.getTipo()));
@@ -269,8 +288,7 @@ public class EventMenuController {
         System.out.println("Capacidad: " + evento.getParticipantes().size() + "/" + evento.getCapacidad());
         System.out.println("Precio: $" + evento.getPrecio());
         
-        // Add this section to show participants
-        System.out.println("\nParticipantes registrados:");
+        mostrarMensajeCentrado("Participantes registrados:");
         if (evento.getParticipantes().isEmpty()) {
             System.out.println("No hay participantes registrados.");
         } else {
@@ -296,13 +314,11 @@ public class EventMenuController {
         String format = "| %-36s | %-20s | %-12s | %-19s | %-8s | %-9s | %-11s |%n";
         int totalWidth = 135;
 
-        // Header
         System.out.println("+" + "-".repeat(totalWidth) + "+");
         System.out.printf(format, 
             "ID", "NOMBRE", "TIPO", "FECHA", "DURACIÓN", "CAPACIDAD", "ASISTENTES");
         System.out.println("+" + "-".repeat(totalWidth) + "+");
 
-        // Content
         for (Event evento : eventos) {
             long duracionHoras = java.time.Duration.between(
                 evento.getFechaInicio(), 
@@ -318,7 +334,6 @@ public class EventMenuController {
                 evento.getParticipantes().size());
         }
 
-        // Footer
         System.out.println("+" + "-".repeat(totalWidth) + "+");
     }
 
@@ -338,9 +353,8 @@ public class EventMenuController {
     }
 
     public void registrarseEnEvento() {
-        System.out.println("\n==== REGISTRARSE EN EVENTO ====");
+        mostrarMensajeCentrado("==== REGISTRARSE EN EVENTO ====");
         try {
-            // Mostrar eventos activos disponibles
             System.out.println("Eventos disponibles:");
             List<Event> eventosActivos = controller.listarEventosActivos();
             if (eventosActivos.isEmpty()) {
@@ -348,7 +362,6 @@ public class EventMenuController {
                 return;
             }
             
-            // Mostrar lista de eventos
             for (int i = 0; i < eventosActivos.size(); i++) {
                 Event evento = eventosActivos.get(i);
                 System.out.printf("%d. %-20s (Tipo: %-10s Fecha: %-16s Precio: $%.2f Ocupación: %d/%d)%n",
@@ -361,7 +374,6 @@ public class EventMenuController {
                         evento.getCapacidad());
             }
             
-            // Seleccionar evento
             System.out.print("Seleccione el número del evento (0 para cancelar): ");
             int seleccion = readIntOption("") - 1;
             if (seleccion == -1) {
@@ -375,24 +387,20 @@ public class EventMenuController {
             }
             
             Event eventoSeleccionado = eventosActivos.get(seleccion);
-            
-            // Ingresar ID de usuario
+
             System.out.println("ID de usuario: " + account.getId());
             String userId = account.getId();
-            
-            // Verificar si ya está registrado
+
             if (eventoSeleccionado.getParticipantes().contains(userId)) {
                 System.out.println("Ya estás registrado en este evento.");
                 return;
             }
-            
-            // Verificar disponibilidad
+
             if (eventoSeleccionado.getParticipantes().size() >= eventoSeleccionado.getCapacidad()) {
                 System.out.println("El evento ya está lleno.");
                 return;
             }
-            
-            // Registrar usuario
+
             if (controller.agregarParticipante(eventoSeleccionado.getId(), userId)) {
                 System.out.println("¡Registro exitoso en el evento: " + eventoSeleccionado.getNombre() + "!");
             } else {
@@ -402,6 +410,15 @@ public class EventMenuController {
         } catch (EventException e) {
             System.out.println("Error: " + e.getMessage());
         }
+    }
+
+    public void mostrarMensajeCentrado(String mensaje) {
+        int longitudMaxima = 73;
+        int longitudMensaje = mensaje.length();
+        int espaciosIzquierda = (longitudMaxima - longitudMensaje) / 2;
+        int espaciosDerecha = longitudMaxima - longitudMensaje - espaciosIzquierda;
+        String lineaCentrada = "=".repeat(espaciosIzquierda) + mensaje + "=".repeat(espaciosDerecha);
+        System.out.println(lineaCentrada);
     }
 
     private int readIntOption(String message) {
@@ -424,11 +441,8 @@ public class EventMenuController {
             String input = sc.nextLine().toLowerCase();
             boolean isAdmin = input.equals("s") || input.equals("si");
             
-            if (isAdmin) {
-                menuController.showAdminMenu();
-            } else {
-                menuController.showUserMenu();
-            }
+            if (isAdmin) menuController.showAdminMenu();
+            else menuController.showUserMenu();
             
             sc.close();
         } catch (AccountException | EventException e) {

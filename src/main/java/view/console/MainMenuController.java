@@ -3,7 +3,28 @@ package view.console;
 import exceptions.*;
 import model.*;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
+/**
+ * Clase principal que controla el menú principal del sistema.
+ * Coordina la navegación entre los diferentes módulos y gestiona
+ * la sesión del usuario actual.
+ * 
+ * @description Funcionalidades principales:
+ *                   - Gestionar el inicio de sesión y registro de usuarios.
+ *                   - Coordinar la navegación entre módulos del sistema.
+ *                   - Mostrar menús específicos según el rol del usuario.
+ *                   - Mantener el estado de la sesión actual.
+ *                   - Inicializar y coordinar los controladores secundarios.
+ * 
+ * @author KNOWLES
+ * @version 1.0
+ * @since 2025-04-29
+ * @see AccountMenuController
+ * @see BookingMenuController
+ * @see EventMenuController
+ * @see Account
+ */
 public class MainMenuController {
     private AccountMenuController accountMenu;
     private BookingMenuController bookingMenu;
@@ -13,6 +34,7 @@ public class MainMenuController {
     private RoomMenuController roomMenu;
     private Scanner scanner;
     private Account currentAccount;
+    private Logo logo;
 
     public MainMenuController() {
         try {
@@ -24,6 +46,7 @@ public class MainMenuController {
             this.productMenu = new ProductMenuController(currentAccount);
             this.roomMenu = new RoomMenuController(currentAccount);
             this.scanner = new Scanner(System.in);
+            this.logo = new Logo();
         } catch (AccountException | BookingException | EventException | RoomException e) {
             System.err.println("Error initializing menus: " + e.getMessage());
         }
@@ -46,6 +69,9 @@ public class MainMenuController {
 
     public void start() {
         int option = -1;
+        logo.loadingEffect();
+        logo.mostrarLogo();
+        logo.details();
         do {
             if (currentAccount == null) {
                 showLoginMenu();
@@ -58,7 +84,7 @@ public class MainMenuController {
     }
 
     private void showLoginMenu() {
-        System.out.println("\n==== SISTEMA DE GESTIÓN HOTELERA ====");
+        mostrarMensajeCentrado("=");
         System.out.println("1. Iniciar sesión");
         System.out.println("2. Registrarse");
         System.out.println("0. Salir");
@@ -73,15 +99,14 @@ public class MainMenuController {
     }
 
     private void showMainMenu() {
-        System.out.println("\n==== SISTEMA DE GESTIÓN LEVELING UP LIFE ====");
-        System.out.println("Usuario actual: " + currentAccount.getUser() + " modo: " + (currentAccount.isAdmin() ? "Admin" : "Client"));
+        mostrarMensajeCentrado(" MENU PRINCIPAL ");
         if (currentAccount.isAdmin()){
             System.out.println("1. Mi Cuenta");
             System.out.println("2. Gestión de Cuentas");
             System.out.println("3. Gestión de Reservas");
             System.out.println("4. Gestión de Eventos");
             System.out.println("5. Gestión de Salas");
-            System.out.println("6. Gestión de Productos"); // Reportes y estadisticas
+            System.out.println("6. Gestión de Productos");
             System.out.println("7. Preguntas Frecuentes");
             System.out.println("8. Cerrar sesión");
             System.out.println("0. Salir");
@@ -165,14 +190,12 @@ public class MainMenuController {
         try {
             currentAccount = accountMenu.login(username, password);
             if (currentAccount != null) {
-                // Update all menu controllers with the new account
                 this.accountMenu = new AccountMenuController(currentAccount);
                 this.bookingMenu = new BookingMenuController(currentAccount);
                 this.eventMenu = new EventMenuController(currentAccount);
                 this.faqMenu = new FaQMenuController(currentAccount);
                 this.productMenu = new ProductMenuController(currentAccount);
                 this.roomMenu = new RoomMenuController(currentAccount);
-                System.out.println("¡Bienvenido, " + currentAccount.getUser() + "!");
             }
         } catch (AccountException | EventException | BookingException | RoomException e) {
             System.out.println("Error: " + e.getMessage());
@@ -180,7 +203,7 @@ public class MainMenuController {
     }
 
     private void register() {
-        System.out.println("\n----- CREAR CUENTA -----");
+        mostrarMensajeCentrado("REGISTRO DE NUEVO USUARIO");
 
         System.out.print("Nombre: ");
         String nombre = scanner.nextLine();
@@ -201,7 +224,7 @@ public class MainMenuController {
         String password = scanner.nextLine();
         try {
             accountMenu.registerAccount(nombre, apellido, phone, email, user, password);
-            System.out.println("Account registered successfully!");
+            mostrarMensajeCentrado("¡Cuenta registrada exitosamente!");
         } catch (AccountException e) {
             System.out.println("Error registering account: " + e.getMessage());
         }
@@ -209,7 +232,7 @@ public class MainMenuController {
 
     private void logout() {
         currentAccount = null;
-        System.out.println("Sesión cerrada exitosamente");
+        mostrarMensajeCentrado("Sesión cerrada exitosamente");
     }
 
     private int readIntOption(String message) {
@@ -223,8 +246,133 @@ public class MainMenuController {
         }
     }
 
+    public void mostrarMensajeCentrado(String mensaje) {
+        int longitudMaxima = 73;
+        int longitudMensaje = mensaje.length();
+        int espaciosIzquierda = (longitudMaxima - longitudMensaje) / 2;
+        int espaciosDerecha = longitudMaxima - longitudMensaje - espaciosIzquierda;
+        String lineaCentrada = "=".repeat(espaciosIzquierda) + mensaje + "=".repeat(espaciosDerecha);
+        System.out.println(lineaCentrada);
+    }
+
     public static void main(String[] args) {
         MainMenuController mainMenu = new MainMenuController();
         mainMenu.start();
+    }
+}
+
+/**
+ * Clase que gestiona la presentación del logo y animación inicial.
+ * Proporciona efectos visuales y animaciones para mejorar la experiencia
+ * de usuario al iniciar el sistema.
+ * 
+ * @description Funcionalidades principales:
+ *                   - Mostrar el logo animado del sistema.
+ *                   - Proporcionar efectos visuales de carga.
+ *                   - Gestionar colores y estilos de texto en consola.
+ *                   - Controlar tiempos de animación.
+ *                   - Manejar excepciones de interrupción.
+ * 
+ * @author KNOWLES
+ * @version 1.0
+ * @since 2025-04-29
+ */
+class Logo {
+    public static final String RESET = "\u001B[0m";
+    public static final String YELLOW = "\u001B[33m";
+    public static final String CYAN = "\u001B[36m";
+    public static final String GREEN = "\u001B[32m";
+    public static final String PURPLE = "\u001B[35m";
+    public static final String RED = "\u001B[31m";
+    public static final String STAR = "\u2605";
+    private static final String VERSION = "V1.4.0";
+    private static final String BUILD_DATE = "29/04/2025";
+
+    public void mostrarLogo() {
+        String[] logo = {
+            YELLOW + "╔═════════════════════════════════════════════════════════════════════════╗" + RESET,
+            YELLOW + "║                                                                         ║" + RESET,
+            YELLOW + "║" + CYAN + "  ██╗      ███████╗ ██╗   ██╗ ███████╗ ██╗      ██╗ ███╗   ██╗  ██████╗  " + YELLOW + "║" + RESET,
+            YELLOW + "║" + CYAN + "  ██║      ██╔════╝ ██║   ██║ ██╔════╝ ██║      ██║ ████╗  ██║ ██╔════╝  " + YELLOW + "║" + RESET,
+            YELLOW + "║" + CYAN + "  ██║      █████╗   ██║   ██║ █████╗   ██║      ██║ ██╔██╗ ██║ ██║  ███╗ " + YELLOW + "║" + RESET,
+            YELLOW + "║" + CYAN + "  ██║      ██╔══╝   ╚██╗ ██╔╝ ██╔══╝   ██║      ██║ ██║╚██╗██║ ██║   ██║ " + YELLOW + "║" + RESET,
+            YELLOW + "║" + CYAN + "  ███████╗ ███████╗  ╚████╔╝  ███████╗ ███████╗ ██║ ██║ ╚████║ ╚██████╔╝ " + YELLOW + "║" + RESET,
+            YELLOW + "║" + CYAN + "  ╚══════╝ ╚══════╝   ╚═══╝   ╚══════╝ ╚══════╝ ╚═╝ ╚═╝  ╚═══╝  ╚═════╝  " + YELLOW + "║" + RESET,
+            YELLOW + "║" + "                                                                         " + YELLOW + "║" + RESET,
+            YELLOW + "║" + GREEN + "                           ██╗   ██╗ ██████╗                             " + YELLOW + "║" + RESET,
+            YELLOW + "║" + GREEN + "                           ██║   ██║ ██╔══██╗                            " + YELLOW + "║" + RESET,
+            YELLOW + "║" + GREEN + "                           ██║   ██║ ██████╔╝                            " + YELLOW + "║" + RESET,
+            YELLOW + "║" + GREEN + "                           ██║   ██║ ██╔═══╝                             " + YELLOW + "║" + RESET,
+            YELLOW + "║" + GREEN + "                           ╚██████╔╝ ██║                                 " + YELLOW + "║" + RESET,
+            YELLOW + "║" + GREEN + "                            ╚═════╝  ╚═╝                                 " + YELLOW + "║" + RESET,
+            YELLOW + "║" + "                                                                         " + YELLOW + "║" + RESET,
+            YELLOW + "║" + PURPLE + "                    ██╗      ██╗ ███████╗ ███████╗                       " + YELLOW + "║" + RESET,
+            YELLOW + "║" + PURPLE + "                    ██║      ██║ ██╔════╝ ██╔════╝                       " + YELLOW + "║" + RESET,
+            YELLOW + "║" + PURPLE + "                    ██║      ██║ █████╗   █████╗                         " + YELLOW + "║" + RESET,
+            YELLOW + "║" + PURPLE + "                    ██║      ██║ ██╔══╝   ██╔══╝                         " + YELLOW + "║" + RESET,
+            YELLOW + "║" + PURPLE + "                    ███████╗ ██║ ██║      ███████╗                       " + YELLOW + "║" + RESET,
+            YELLOW + "║" + PURPLE + "                    ╚══════╝ ╚═╝ ╚═╝      ╚══════╝                       " + YELLOW + "║" + RESET,
+            YELLOW + "║" + "                                                                         " + YELLOW + "║" + RESET,
+            YELLOW + "╚═════════════════════════════════════════════════════════════════════════╝" + RESET,
+            "",
+        };
+        
+        for (String line : logo) {
+            System.out.println(line);
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    protected void details(){
+        String[] logo = {
+            CYAN + "                          "+STAR+" ¡BIENVENIDO! "+STAR + RESET,
+            PURPLE + "                    Version: " + VERSION + " - Build: " + BUILD_DATE + RESET,
+            PURPLE + "                         Copyright © 2025 KNOWLES" + RESET
+        };
+        
+        for (String line : logo) {
+            System.out.println(line);
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    protected void loadingEffect() {
+        System.out.println(RED + "Iniciando sistema..." + RESET);
+        String loading = "█";
+        
+        System.out.print("Cargando: [          ] 0%");
+        
+        for (int i = 0; i <= 100; i += 10) {
+            try {
+                Thread.sleep(500);
+                System.out.print("\rCargando: [");
+                for (int j = 0; j < i/10; j++) {
+                    System.out.print(GREEN + loading + RESET);
+                }
+                for (int j = 0; j < 10 - i/10; j++) {
+                    System.out.print(" ");
+                }
+                System.out.print("] " + i + "%");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        
+        System.out.println("\n" + GREEN + "¡Sistema cargado con éxito!" + RESET);
+        System.out.println();
+        
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

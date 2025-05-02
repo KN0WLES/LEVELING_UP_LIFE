@@ -6,22 +6,40 @@ import exceptions.*;
 import controller.*;
 
 import java.util.*;
-
+/**
+ * Clase que representa el controlador de menú para preguntas frecuentes.
+ * Gestiona la interacción del usuario con el sistema de FAQ, permitiendo
+ * consultar y gestionar preguntas y respuestas.
+ * 
+ * @description Funcionalidades principales:
+ *                   - Mostrar y gestionar preguntas frecuentes.
+ *                   - Permitir a usuarios hacer nuevas preguntas.
+ *                   - Gestionar respuestas a preguntas pendientes.
+ *                   - Realizar operaciones CRUD sobre FAQs.
+ *                   - Validar entradas y manejar excepciones.
+ * 
+ * @author KNOWLES
+ * @version 1.0
+ * @since 2025-04-29
+ * @see FaQController
+ * @see FaQ
+ * @see Account
+ */
 public class FaQMenuController {
     private FaQController faqController;
-    private final Account account;
+    //private final Account account;
     private final Scanner scanner;
 
     public FaQMenuController(Account account) {
-        FaQ prototype = new FaQ(); // Usa el constructor por defecto o el apropiado
-        this.account = account;
+        FaQ prototype = new FaQ();
+        //this.account = account;
         IFile<FaQ> fileHandler = new FileHandler<>(prototype);
         
         try {
             this.faqController = new FaQController(fileHandler);
         } catch (FaQException e) {
             System.err.println("Error al inicializar FaQController: " + e.getMessage());
-            this.faqController = null; // O maneja la inicialización de otra manera
+            this.faqController = null;
         }
         
         this.scanner = new Scanner(System.in);
@@ -30,7 +48,7 @@ public class FaQMenuController {
     public void showUserMenu() {
         int option;
         do {
-            System.out.println("\n==== SISTEMA DE GESTIÓN DE PREGUNTAS FRECUENTES ====");
+            mostrarMensajeCentrado("==== SISTEMA DE GESTIÓN DE PREGUNTAS FRECUENTES ====");
             System.out.println("1. Ver todas las preguntas frecuentes");
             System.out.println("2. Buscar pregunta por ID");
             System.out.println("3. Hacer una pregunta");
@@ -61,14 +79,13 @@ public class FaQMenuController {
                     System.out.println("Debe responderlas antes de continuar.");
                     responderPreguntasPendientes();
                     continue;
-              
                 }
             } catch (FaQException e) {
                 System.out.println("Error al verificar preguntas pendientes: " + e.getMessage());
                 continue;
             }
 
-            System.out.println("\n==== SISTEMA DE GESTIÓN DE PREGUNTAS FRECUENTES - ADMINISTRADOR ====");
+            mostrarMensajeCentrado("==== SISTEMA DE GESTIÓN DE PREGUNTAS FRECUENTES - ADMINISTRADOR ====");
             System.out.println("1. Ver todas las preguntas frecuentes");
             System.out.println("2. Buscar pregunta por ID");
             System.out.println("3. Añadir nueva pregunta frecuente");
@@ -95,7 +112,7 @@ public class FaQMenuController {
     }
 
     private void showAllFaqsMenu() {
-        System.out.println("\n==== LISTADO DE TODAS LAS PREGUNTAS FRECUENTES ====");
+        mostrarMensajeCentrado("==== LISTADO DE TODAS LAS PREGUNTAS FRECUENTES ====");
         try {
             List<FaQ> faqs = faqController.getAllFaqs();
             if (faqs.isEmpty()) {
@@ -105,7 +122,7 @@ public class FaQMenuController {
 
             for (FaQ faq : faqs) {
                 displayFaqDetails(faq);
-                System.out.println("=".repeat(80)); // Separator between FAQs
+                System.out.println("=".repeat(80));
             }
 
         } catch (FaQException e) {
@@ -114,7 +131,7 @@ public class FaQMenuController {
     }
 
     private void findFaqByIdMenu() {
-        System.out.println("\n==== BUSCAR PREGUNTA POR ID ====");
+        mostrarMensajeCentrado("==== BUSCAR PREGUNTA POR ID ====");
         System.out.print("ID de la pregunta: ");
         String id = scanner.nextLine();
         
@@ -127,14 +144,13 @@ public class FaQMenuController {
     }
 
     private void addFaqMenu() {
-        System.out.println("\n==== AÑADIR NUEVA PREGUNTA FRECUENTE ====");
+        mostrarMensajeCentrado("==== AÑADIR NUEVA PREGUNTA FRECUENTE ====");
         System.out.print("Pregunta: ");
         String pregunta = scanner.nextLine();
         System.out.print("Respuesta: ");
         String respuesta = scanner.nextLine();
         
         try {
-            // Ajusta según el constructor real de FaQ
             FaQ newFaq = new FaQ(pregunta, respuesta);
             faqController.addFaq(newFaq);
             System.out.println("Pregunta frecuente añadida exitosamente.");
@@ -145,7 +161,7 @@ public class FaQMenuController {
     }
 
     private void updateFaqMenu() {
-        System.out.println("\n==== ACTUALIZAR PREGUNTA FRECUENTE ====");
+        mostrarMensajeCentrado("==== ACTUALIZAR PREGUNTA FRECUENTE ====");
         System.out.print("ID de la pregunta a actualizar: ");
         String id = scanner.nextLine();
         
@@ -174,14 +190,14 @@ public class FaQMenuController {
     }
 
     private void hacerPreguntaMenu() {
-        System.out.println("\n==== HACER UNA PREGUNTA ====");
+        mostrarMensajeCentrado("==== HACER UNA PREGUNTA ====");
         System.out.print("Escriba su pregunta: ");
         String pregunta = scanner.nextLine();
         
         try {
-            // Create FAQ with default pending response
+
             FaQ newFaq = new FaQ(pregunta, "Solicitud pendiente de respuesta");
-            newFaq.setPendiente(true); // Mark as pending
+            newFaq.setPendiente(true);
             faqController.addFaq(newFaq);
             System.out.println("Pregunta enviada exitosamente. Un administrador la responderá pronto.");
             System.out.println("ID de seguimiento: " + newFaq.getId());
@@ -194,7 +210,7 @@ public class FaQMenuController {
         try {
             List<FaQ> pendientes = faqController.getFaqByPending();
             for (FaQ faq : pendientes) {
-                System.out.println("\n==== PREGUNTA PENDIENTE ====");
+                mostrarMensajeCentrado("==== PREGUNTA PENDIENTE ====");
                 displayFaqDetails(faq);
                 
                 System.out.print("Escriba la respuesta: ");
@@ -202,7 +218,7 @@ public class FaQMenuController {
                 
                 if (!respuesta.trim().isEmpty()) {
                     faq.setRespuesta(respuesta);
-                    faq.setPendiente(false);  // Toggle pending status
+                    faq.setPendiente(false);
                     faqController.updateFaq(faq);
                     System.out.println("Respuesta guardada exitosamente.");
                 }
@@ -263,7 +279,7 @@ public class FaQMenuController {
     }
 
     private void deleteFaqMenu() {
-        System.out.println("\n==== ELIMINAR PREGUNTA FRECUENTE ====");
+        mostrarMensajeCentrado("==== ELIMINAR PREGUNTA FRECUENTE ====");
         System.out.print("ID de la pregunta a eliminar: ");
         String id = scanner.nextLine();
         
@@ -294,6 +310,15 @@ public class FaQMenuController {
                 System.out.println("Por favor, ingrese un número válido.");
             }
         }
+    }
+
+    public void mostrarMensajeCentrado(String mensaje) {
+        int longitudMaxima = 73;
+        int longitudMensaje = mensaje.length();
+        int espaciosIzquierda = (longitudMaxima - longitudMensaje) / 2;
+        int espaciosDerecha = longitudMaxima - longitudMensaje - espaciosIzquierda;
+        String lineaCentrada = "=".repeat(espaciosIzquierda) + mensaje + "=".repeat(espaciosDerecha);
+        System.out.println(lineaCentrada);
     }
 
     public static void main(String[] args) {

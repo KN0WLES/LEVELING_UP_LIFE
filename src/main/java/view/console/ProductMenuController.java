@@ -8,14 +8,33 @@ import controller.*;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Clase que representa el controlador de menú para la gestión de productos.
+ * Maneja la interacción del usuario con el inventario y catálogo de productos
+ * disponibles en el sistema.
+ * 
+ * @description Funcionalidades principales:
+ *                   - Gestionar el catálogo completo de productos.
+ *                   - Controlar el inventario y stock de productos.
+ *                   - Manejar categorías y precios de productos.
+ *                   - Realizar operaciones CRUD sobre productos.
+ *                   - Validar entradas del usuario y manejar excepciones.
+ * 
+ * @author KNOWLES
+ * @version 1.0
+ * @since 2025-04-29
+ * @see ProductController
+ * @see Product
+ * @see Account
+ */
 public class ProductMenuController {
     private ProductController controller;
-    private final Account account;
+    //private final Account account;
     private final Scanner scanner;
 
     public ProductMenuController(Account account) {
         Product prototype = new Product();
-        this.account = account;
+        //this.account = account;
         IFile<Product> fileHandler = new FileHandler<>(prototype);
         
         try {
@@ -31,7 +50,7 @@ public class ProductMenuController {
     public void showAdminMenu(){
         int option;
         do {
-            System.out.println("\n==== SISTEMA DE GESTIÓN DE PRODUCTOS ====");
+            mostrarMensajeCentrado("==== SISTEMA DE GESTIÓN DE PRODUCTOS ====");
             System.out.println("1. Ver todos los productos");
             System.out.println("2. Buscar producto por ID");
             System.out.println("3. Ver productos disponibles");
@@ -83,7 +102,7 @@ public class ProductMenuController {
     }
 
     private void gestionarStock() throws ProductException {
-        System.out.println("\n=== GESTIONAR STOCK ===");
+        mostrarMensajeCentrado("=== GESTIONAR STOCK ===");
         mostrarTodosLosProductos();
         System.out.print("Ingrese el ID del producto: ");
         String id = scanner.nextLine();
@@ -113,7 +132,7 @@ public class ProductMenuController {
     public void showUserMenu() {
         int option;
         do {
-            System.out.println("\n==== PRODUCTOS OFRECIDOS ====");
+            mostrarMensajeCentrado("==== PRODUCTOS OFRECIDOS ====");
             System.out.println("1. Ver productos disponibles");
             System.out.println("2. Ver productos por categoría");
             System.out.println("3. Comprar producto");
@@ -145,7 +164,7 @@ public class ProductMenuController {
     }
 
     private void comprarProducto() throws ProductException {
-        System.out.println("\n=== COMPRAR PRODUCTO ===");
+        mostrarMensajeCentrado("=== COMPRAR PRODUCTO ===");
         listarDisponibles();
         System.out.print("Ingrese el ID del producto a comprar: ");
         String id = scanner.nextLine();
@@ -162,7 +181,7 @@ public class ProductMenuController {
     }
 
     private void mostrarTodosLosProductos() throws ProductException {
-        System.out.println("\n==== LISTADO DE TODOS LOS PRODUCTOS ====");
+        mostrarMensajeCentrado("==== LISTADO DE TODOS LOS PRODUCTOS ====");
         List<Product> productos = controller.getAvailableProducts();
         mostrarListaProductos(productos);
     }
@@ -179,7 +198,7 @@ public class ProductMenuController {
     }
 
     private void agregarProducto() throws ProductException {
-        System.out.println("\n=== AGREGAR PRODUCTO ===");
+        mostrarMensajeCentrado("=== AGREGAR PRODUCTO ===");
         System.out.print("Nombre: ");
         String nombre = scanner.nextLine();
         System.out.print("Categoría (C/B/P): ");
@@ -195,7 +214,7 @@ public class ProductMenuController {
     }
 
     private void buscarProducto() throws ProductException {
-        System.out.println("\n=== BUSCAR PRODUCTO ===");
+        mostrarMensajeCentrado("=== BUSCAR PRODUCTO ===");
         System.out.print("Ingrese el ID del producto: ");
         String id = scanner.nextLine();
         Product producto = controller.getProductById(id);
@@ -203,7 +222,7 @@ public class ProductMenuController {
     }
 
     private void actualizarProducto() throws ProductException {
-        System.out.println("\n=== ACTUALIZAR PRODUCTO ===");
+        mostrarMensajeCentrado("=== ACTUALIZAR PRODUCTO ===");
         System.out.print("Ingrese el ID del producto a actualizar: ");
         String id = scanner.nextLine();
         
@@ -275,8 +294,7 @@ public class ProductMenuController {
             productoExistente.getId(), 
             nombre, 
             categoria, 
-            String.format("%.2f", precio).replace(',', '.'), // Replace comma with period
-            stock);
+            String.format("%.2f", precio).replace(',', '.'),stock);
         Product productoActualizado = new Product().fromFile(productData);
         
         controller.updateProduct(productoActualizado);
@@ -284,7 +302,7 @@ public class ProductMenuController {
     }  
 
     private void eliminarProducto() throws ProductException {
-        System.out.println("\n=== ELIMINAR PRODUCTO ===");
+        mostrarMensajeCentrado("=== ELIMINAR PRODUCTO ===");
         System.out.print("Ingrese el ID del producto a eliminar: ");
         String id = scanner.nextLine();
         controller.deleteProduct(id);
@@ -292,7 +310,7 @@ public class ProductMenuController {
     }
 
     private void listarPorCategoria() throws ProductException {
-        System.out.println("\n=== LISTAR POR CATEGORÍA ===");
+        mostrarMensajeCentrado("=== LISTAR POR CATEGORÍA ===");
         System.out.print("Ingrese la categoría (C/B/P): ");
         char categoria = scanner.nextLine().toUpperCase().charAt(0);
         List<Product> productos = controller.getProductsByCategory(categoria);
@@ -300,7 +318,7 @@ public class ProductMenuController {
     }
 
     private void listarDisponibles() throws ProductException {
-        System.out.println("\n=== PRODUCTOS DISPONIBLES ===");
+        mostrarMensajeCentrado("=== PRODUCTOS DISPONIBLES ===");
         List<Product> productos = controller.getAvailableProducts();
         mostrarListaProductos(productos);
     }
@@ -320,16 +338,13 @@ public class ProductMenuController {
             return;
         }
 
-        // Define column widths
         String format = "| %-36s | %-30s | %-10s | %8s | %6s |%n";
         int totalWidth = 104;
 
-        // Print header
         System.out.println("+" + "-".repeat(totalWidth) + "+");
         System.out.printf(format, "ID", "NOMBRE", "CATEGORÍA", "PRECIO", "STOCK");
         System.out.println("+" + "-".repeat(totalWidth) + "+");
 
-        // Print products
         for (Product producto : productos) {
             System.out.printf(format,
                     producto.getId(),
@@ -339,7 +354,6 @@ public class ProductMenuController {
                     producto.getStock());
         }
 
-        // Print footer
         System.out.println("+" + "-".repeat(totalWidth) + "+");
     }
 
@@ -355,6 +369,15 @@ public class ProductMenuController {
             case 'P' -> "Postre";
             default -> "N/A";
         };
+    }
+
+    public void mostrarMensajeCentrado(String mensaje) {
+        int longitudMaxima = 73;
+        int longitudMensaje = mensaje.length();
+        int espaciosIzquierda = (longitudMaxima - longitudMensaje) / 2;
+        int espaciosDerecha = longitudMaxima - longitudMensaje - espaciosIzquierda;
+        String lineaCentrada = "=".repeat(espaciosIzquierda) + mensaje + "=".repeat(espaciosDerecha);
+        System.out.println(lineaCentrada);
     }
 
     public static void main(String[] args) {

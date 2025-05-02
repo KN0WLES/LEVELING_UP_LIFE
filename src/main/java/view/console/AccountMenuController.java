@@ -9,6 +9,25 @@ import java.util.List;
 import java.util.Scanner;
 import java.io.Console;
 
+/**
+ * Clase que representa el controlador de menú para la gestión de cuentas.
+ * Maneja la interacción del usuario con el sistema de autenticación y
+ * gestión de perfiles de usuario.
+ * 
+ * @description Funcionalidades principales:
+ *                   - Gestionar el proceso de login y registro.
+ *                   - Controlar la actualización de datos de usuario.
+ *                   - Manejar cambios de contraseña.
+ *                   - Administrar roles y permisos.
+ *                   - Validar entradas y manejar excepciones.
+ * 
+ * @author KNOWLES
+ * @version 1.0
+ * @since 2025-04-29
+ * @see AccountController
+ * @see Account
+ * @see Console
+ */
 public class AccountMenuController {
     private final AccountController accountController;
     private final Scanner scanner;
@@ -24,29 +43,23 @@ public class AccountMenuController {
         this.currentLoggedAccount = null;
     }
 
-    // Method to get current logged account
     public Account getCurrentLoggedAccount() {
         return currentLoggedAccount;
     }
 
-    // Method for login that returns the Account object
     public Account login(String username, String password) throws AccountException {
-        // Intentar login directamente con la contraseña proporcionada
         currentLoggedAccount = accountController.login(username, password);
         
-        // Limpiar pantalla después del login exitoso
         System.out.print("\033[H\033[2J");
         System.out.flush();
         
-        // Mostrar mensaje de bienvenida y menú principal
-        System.out.println("\n==== SISTEMA DE GESTIÓN LEVELING UP LIFE ====");
-        System.out.println("Usuario actual: " + username + " modo: " + 
-            (currentLoggedAccount.isAdmin() ? "Admin" : "Client"));
+        mostrarMensajeCentrado("==== SISTEMA DE GESTIÓN LEVELING UP LIFE ====");
+        System.out.println("Usuario actual: " + username + " \t\t\t\t modo: " + 
+            (currentLoggedAccount.isAdmin() ? "ADMIN" : "USER"));
         
         return currentLoggedAccount;
     }
 
-    // Method to handle user registration and return the created account
     public Account registerAccount(String name, String lastName, String phone, String email, String username, String password) throws AccountException {
         Account newAccount = new Account(name, lastName, phone, email, username, password);
         accountController.registerAccount(newAccount);
@@ -56,7 +69,7 @@ public class AccountMenuController {
     public void showUserMenu() {
         int option;
         do {
-            System.out.println("\n==== MENÚ DE USUARIO ====");
+            mostrarMensajeCentrado("==== MENÚ DE USUARIO ====");
             System.out.println("1. Actualizar información de cuenta");
             System.out.println("2. Cambiar contraseña");
             System.out.println("0. Volver al menú principal");
@@ -80,13 +93,13 @@ public class AccountMenuController {
     public void showAdminMenu() {
         int option;
         do {
-            System.out.println("\n==== MENÚ DE ADMINISTRACIÓN DE CUENTAS ====");
+            mostrarMensajeCentrado("==== MENÚ DE ADMINISTRACIÓN DE CUENTAS ====");
             System.out.println("1. Ver todas las cuentas");
             System.out.println("2. Buscar cuenta por usuario");
             System.out.println("3. Buscar cuenta por email");
             System.out.println("4. Modificar estado de administrador");
             System.out.println("5. Eliminar cuenta");
-            System.out.println("6. Actualizar datos de cuenta"); // Nueva opción
+            System.out.println("6. Actualizar datos de cuenta");
             System.out.println("0. Volver al menú principal");
 
             option = readIntOption("Seleccione una opción: ");
@@ -98,7 +111,7 @@ public class AccountMenuController {
                     case 3 -> findAccountByEmailMenu();
                     case 4 -> modifyAdminStatusMenu();
                     case 5 -> deleteAccountMenu();
-                    case 6 -> updateAnyAccountMenu(); // Nuevo método
+                    case 6 -> updateAnyAccountMenu();
                     case 0 -> {
                     }
                     default -> System.out.println("Opción inválida.");
@@ -109,9 +122,8 @@ public class AccountMenuController {
         } while (option != 0);
     }
 
-    // Nuevo método para actualizar cualquier cuenta
     private void updateAnyAccountMenu() {
-        System.out.println("\n==== ACTUALIZAR DATOS DE CUENTA ====");
+        mostrarMensajeCentrado("==== ACTUALIZAR DATOS DE CUENTA ====");
         System.out.print("Ingrese el nombre de usuario de la cuenta a modificar: ");
         String username = scanner.nextLine();
         
@@ -122,7 +134,7 @@ public class AccountMenuController {
                 return;
             }
 
-            System.out.println("\n==== ACTUALIZAR INFORMACIÓN DE CUENTA ====");
+            mostrarMensajeCentrado("==== ACTUALIZAR INFORMACIÓN DE CUENTA ====");
             System.out.println("1. Actualizar nombre");
             System.out.println("2. Actualizar apellido");
             System.out.println("3. Actualizar teléfono");
@@ -160,7 +172,6 @@ public class AccountMenuController {
                 case 5 -> {
                     System.out.print("Nueva contraseña: ");
                     String newPassword = scanner.nextLine();
-                    // No necesitamos la contraseña actual porque es un admin
                     accountController.resetUserPassword(username, newPassword);
                     System.out.println("Contraseña actualizada exitosamente.");
                 }
@@ -175,7 +186,7 @@ public class AccountMenuController {
     }
 
     private void updateAccountMenu() {
-        System.out.println("\n==== ACTUALIZAR INFORMACIÓN DE CUENTA ====");
+        mostrarMensajeCentrado("==== ACTUALIZAR INFORMACIÓN DE CUENTA ====");
         System.out.println("1. Actualizar nombre");
         System.out.println("2. Actualizar apellido");
         System.out.println("3. Actualizar teléfono");
@@ -221,17 +232,15 @@ public class AccountMenuController {
     }
 
     private void changePasswordMenu() {
-        System.out.println("\n==== CAMBIAR CONTRASEÑA ====");
+        mostrarMensajeCentrado("==== CAMBIAR CONTRASEÑA ====");
         
         String currentPassword;
         String newPassword;
         
         if (console != null) {
-            // Usando console para ocultar la contraseña
             currentPassword = new String(console.readPassword("Contraseña actual: "));
             newPassword = new String(console.readPassword("Nueva contraseña: "));
         } else {
-            // Fallback para entornos sin console (como algunos IDEs)
             System.out.print("Contraseña actual: ");
             currentPassword = scanner.nextLine();
             System.out.print("Nueva contraseña: ");
@@ -247,7 +256,7 @@ public class AccountMenuController {
     }
 
     private void showAllAccountsMenu() {
-        System.out.println("\n==== LISTADO DE TODAS LAS CUENTAS ====");
+        mostrarMensajeCentrado("==== LISTADO DE TODAS LAS CUENTAS ====");
         try {
             List<Account> accounts = accountController.getAllAccounts();
             if (accounts.isEmpty()) {
@@ -275,7 +284,6 @@ public class AccountMenuController {
                     account.isAdmin() ? "Sí" : "No");
             }
 
-            // Footer
             System.out.println("+" + "-".repeat(totalWidth) + "+");
 
         } catch (AccountException e) {
@@ -290,7 +298,7 @@ public class AccountMenuController {
     }
 
     private void findAccountByUsernameMenu() {
-        System.out.println("\n==== BUSCAR CUENTA POR NOMBRE DE USUARIO ====");
+        mostrarMensajeCentrado("==== BUSCAR CUENTA POR NOMBRE DE USUARIO ====");
         System.out.print("Nombre de usuario: ");
         String username = scanner.nextLine();
         
@@ -307,7 +315,7 @@ public class AccountMenuController {
     }
 
     private void findAccountByEmailMenu() {
-        System.out.println("\n==== BUSCAR CUENTA POR EMAIL ====");
+        mostrarMensajeCentrado("==== BUSCAR CUENTA POR EMAIL ====");
         System.out.print("Email: ");
         String email = scanner.nextLine();
         
@@ -324,7 +332,7 @@ public class AccountMenuController {
     }
 
     private void modifyAdminStatusMenu() {
-        System.out.println("\n==== MODIFICAR ESTADO DE ADMINISTRADOR ====");
+        mostrarMensajeCentrado(" MODIFICAR ESTADO DE ADMINISTRADOR ");
         System.out.print("Nombre de usuario: ");
         String username = scanner.nextLine();
         
@@ -350,7 +358,7 @@ public class AccountMenuController {
     }
 
     private void deleteAccountMenu() {
-        System.out.println("\n==== ELIMINAR CUENTA ====");
+        mostrarMensajeCentrado(" ELIMINAR CUENTA ");
         System.out.print("Nombre de usuario: ");
         String username = scanner.nextLine();
         
@@ -378,7 +386,7 @@ public class AccountMenuController {
     }
 
     private void displayAccountDetails(Account account) {
-        System.out.println("\nDetalles de la cuenta:");
+        mostrarMensajeCentrado(" Detalles de la cuenta ");
         System.out.println("Usuario: " + account.getUser());
         System.out.println("Nombre: " + account.getNombre());
         System.out.println("Apellido: " + account.getApellido());
@@ -389,13 +397,22 @@ public class AccountMenuController {
 
     public void logout() {
         currentLoggedAccount = null;
-        System.out.println("Sesión cerrada exitosamente.");
+        mostrarMensajeCentrado("Sesión cerrada exitosamente");
     }
 
     public void showMyAccount(Account account) {
-        System.out.println("\n==== MI CUENTA ====");
+        mostrarMensajeCentrado(" MI CUENTA ");
         displayAccountDetails(account);
         showUserMenu();
+    }
+
+    public void mostrarMensajeCentrado(String mensaje) {
+        int longitudMaxima = 73;
+        int longitudMensaje = mensaje.length();
+        int espaciosIzquierda = (longitudMaxima - longitudMensaje) / 2;
+        int espaciosDerecha = longitudMaxima - longitudMensaje - espaciosIzquierda;
+        String lineaCentrada = "=".repeat(espaciosIzquierda) + mensaje + "=".repeat(espaciosDerecha);
+        System.out.println(lineaCentrada);
     }
 
     private int readIntOption(String message) {

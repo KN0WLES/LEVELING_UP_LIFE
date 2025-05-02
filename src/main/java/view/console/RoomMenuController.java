@@ -8,14 +8,33 @@ import controller.*;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Clase que representa el controlador de menú para la gestión de habitaciones.
+ * Maneja la interacción del usuario con las funcionalidades de habitaciones,
+ * tanto para usuarios normales como administradores.
+ * 
+ * @description Funcionalidades principales:
+ *                   - Mostrar menús diferenciados para usuarios y administradores.
+ *                   - Gestionar operaciones CRUD de habitaciones.
+ *                   - Manejar reservas y disponibilidad de habitaciones.
+ *                   - Controlar estados de mantenimiento y ocupación.
+ *                   - Validar entradas del usuario y manejar excepciones.
+ * 
+ * @author KNOWLES
+ * @version 1.0
+ * @since 2025-04-29
+ * @see RoomController
+ * @see Room
+ * @see Account
+ */
 public class RoomMenuController {
     private RoomController controller;
-    private final Account account;
+    //private final Account account;
     private final Scanner scanner;
 
     public RoomMenuController(Account account) {
         Room prototype = new Room();
-        this.account = account;
+        //this.account = account;
         IFile<Room> fileHandler = new FileHandler<>(prototype);
         
         try {
@@ -31,7 +50,7 @@ public class RoomMenuController {
     public void showUserMenu() {
         int option;
         do {
-            System.out.println("\n==== SISTEMA DE GESTIÓN DE HABITACIONES ====");
+            mostrarMensajeCentrado("==== SISTEMA DE GESTIÓN DE HABITACIONES ====");
             System.out.println("1. Ver habitaciones disponibles");
             System.out.println("2. Ver habitaciones por tipo");
             System.out.println("3. Reservar habitación");
@@ -58,7 +77,7 @@ public class RoomMenuController {
     public void showAdminMenu() {
         int option;
         do {
-            System.out.println("\n==== SISTEMA DE GESTIÓN DE HABITACIONES - ADMINISTRADOR ====");
+            mostrarMensajeCentrado("==== SISTEMA DE GESTIÓN DE HABITACIONES ====");
             System.out.println("1. Ver todas las habitaciones");
             System.out.println("2. Buscar habitación por ID");
             System.out.println("3. Ver habitaciones disponibles");
@@ -93,13 +112,13 @@ public class RoomMenuController {
     }
 
     private void mostrarTodasLasHabitaciones() throws RoomException {
-        System.out.println("\n==== LISTADO DE TODAS LAS HABITACIONES ====");
+        mostrarMensajeCentrado("==== LISTADO DE TODAS LAS HABITACIONES ====");
         List<Room> habitaciones = controller.getAvailableRooms();
         mostrarListaHabitaciones(habitaciones);
     }
 
     private void buscarHabitacion() throws RoomException {
-        System.out.println("\n==== BUSCAR HABITACIÓN POR ID ====");
+        mostrarMensajeCentrado("==== BUSCAR HABITACIÓN POR ID ====");
         System.out.print("ID de la habitación: ");
         String id = scanner.nextLine();
         Room habitacion = controller.getRoomById(id);
@@ -107,7 +126,7 @@ public class RoomMenuController {
     }
 
     private void agregarHabitacion() throws RoomException {
-        System.out.println("\n==== AÑADIR NUEVA HABITACIÓN ====");
+        mostrarMensajeCentrado("==== AÑADIR NUEVA HABITACIÓN ====");
         System.out.print("Nombre: ");
         String nombre = scanner.nextLine();
         System.out.print("Tipo (I: Individual, P: Privado, D: Dormitorio, M: Mixto): ");
@@ -122,7 +141,7 @@ public class RoomMenuController {
     }
 
     private void actualizarHabitacion() throws RoomException {
-        System.out.println("\n==== ACTUALIZAR HABITACIÓN ====");
+        mostrarMensajeCentrado("==== ACTUALIZAR HABITACIÓN ====");
         System.out.print("ID de la habitación a actualizar: ");
         String id = scanner.nextLine();
         
@@ -148,7 +167,7 @@ public class RoomMenuController {
             habitacionExistente.getId(), 
             nombre, 
             tipo, 
-            String.format(java.util.Locale.US, "%.2f", precio), // Fix decimal separator
+            String.format(java.util.Locale.US, "%.2f", precio),
             habitacionExistente.isDisponible());
         habitacionActualizada = habitacionActualizada.fromFile(roomData);
         
@@ -157,7 +176,7 @@ public class RoomMenuController {
     }
 
     private void eliminarHabitacion() throws RoomException {
-        System.out.println("\n==== ELIMINAR HABITACIÓN ====");
+        mostrarMensajeCentrado("==== ELIMINAR HABITACIÓN ====");
         System.out.print("ID de la habitación a eliminar: ");
         String id = scanner.nextLine();
         
@@ -176,7 +195,7 @@ public class RoomMenuController {
     }
 
     private void listarPorTipo() throws RoomException {
-        System.out.println("\n==== LISTAR POR TIPO ====");
+        mostrarMensajeCentrado("==== LISTAR POR TIPO ====");
         System.out.print("Ingrese el tipo (I/P/D/M): ");
         char tipo = scanner.nextLine().toUpperCase().charAt(0);
         List<Room> habitaciones = controller.getRoomsByType(tipo);
@@ -184,13 +203,13 @@ public class RoomMenuController {
     }
 
     private void listarDisponibles() throws RoomException {
-        System.out.println("\n==== HABITACIONES DISPONIBLES ====");
+        mostrarMensajeCentrado("==== HABITACIONES DISPONIBLES ====");
         List<Room> habitaciones = controller.getAvailableRooms();
         mostrarListaHabitaciones(habitaciones);
     }
 
     private void cambiarEstadoMantenimiento() throws RoomException {
-        System.out.println("\n==== CAMBIAR ESTADO DE MANTENIMIENTO ====");
+        mostrarMensajeCentrado("==== CAMBIAR ESTADO DE MANTENIMIENTO ====");
         System.out.print("ID de la habitación: ");
         String id = scanner.nextLine();
         
@@ -205,7 +224,7 @@ public class RoomMenuController {
     }
 
     private void cambiarEstadoOcupacion() throws RoomException {
-        System.out.println("\n==== CAMBIAR ESTADO DE OCUPACIÓN ====");
+        mostrarMensajeCentrado("==== CAMBIAR ESTADO DE OCUPACIÓN ====");
         System.out.print("ID de la habitación: ");
         String id = scanner.nextLine();
         
@@ -220,7 +239,7 @@ public class RoomMenuController {
     }
 
     private void reservarHabitacion() throws RoomException {
-        System.out.println("\n==== RESERVAR HABITACIÓN ====");
+        mostrarMensajeCentrado("==== RESERVAR HABITACIÓN ====");
         System.out.print("ID de la habitación: ");
         String id = scanner.nextLine();
         
@@ -248,7 +267,7 @@ public class RoomMenuController {
     }
 
     private void cancelarReserva() throws RoomException {
-        System.out.println("\n==== CANCELAR RESERVA ====");
+        mostrarMensajeCentrado("==== CANCELAR RESERVA ====");
         System.out.print("ID de la habitación: ");
         String id = scanner.nextLine();
         
@@ -293,13 +312,11 @@ public class RoomMenuController {
         String format = "| %-36s | %-6s | %-12s | %12s | %-10s |%n";
         int totalWidth = 90;
 
-        // Header
         System.out.println("+" + "-".repeat(totalWidth) + "+");
         System.out.printf(format, 
             "ID", "NOMBRE", "TIPO", "PRECIO/HORA", "ESTADO");
         System.out.println("+" + "-".repeat(totalWidth) + "+");
 
-        // Content
         for (Room habitacion : habitaciones) {
             System.out.printf(format,
                 habitacion.getId(),
@@ -309,7 +326,6 @@ public class RoomMenuController {
                 habitacion.isDisponible() ? "Disponible" : "No Disponible");
         }
 
-        // Footer
         System.out.println("+" + "-".repeat(totalWidth) + "+");
     }
 
@@ -338,6 +354,15 @@ public class RoomMenuController {
                 System.out.println("Por favor, ingrese un número válido.");
             }
         }
+    }
+
+    public void mostrarMensajeCentrado(String mensaje) {
+        int longitudMaxima = 73;
+        int longitudMensaje = mensaje.length();
+        int espaciosIzquierda = (longitudMaxima - longitudMensaje) / 2;
+        int espaciosDerecha = longitudMaxima - longitudMensaje - espaciosIzquierda;
+        String lineaCentrada = "=".repeat(espaciosIzquierda) + mensaje + "=".repeat(espaciosDerecha);
+        System.out.println(lineaCentrada);
     }
 
     public static void main(String[] args) {

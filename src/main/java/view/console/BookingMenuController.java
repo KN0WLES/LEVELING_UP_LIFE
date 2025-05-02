@@ -12,6 +12,25 @@ import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Clase que representa el controlador de menú para la gestión de reservas.
+ * Maneja la interacción del usuario con el sistema de reservas, permitiendo
+ * crear, modificar y cancelar reservas.
+ * 
+ * @description Funcionalidades principales:
+ *                   - Gestionar el proceso completo de reservas.
+ *                   - Controlar disponibilidad de habitaciones.
+ *                   - Manejar fechas y duración de reservas.
+ *                   - Calcular costos y generar facturas.
+ *                   - Validar entradas y manejar excepciones.
+ * 
+ * @author KNOWLES
+ * @version 1.0
+ * @since 2025-04-29
+ * @see BookingController
+ * @see Booking
+ * @see Room
+ */
 public class BookingMenuController {
     private final BookingController controller;
     private final RoomController roomController;
@@ -40,7 +59,7 @@ public class BookingMenuController {
     public void showUserMenu() {
         int option;
         do {
-            System.out.println("\n==== MENÚ DE USUARIO ====");
+            mostrarMensajeCentrado("==== SISTEMA DE GESTION DE RESERVAS ====");
             System.out.println("1. Ver reservas actuales");
             System.out.println("2. Ver facturas");
             System.out.println("3. Crear nueva reserva");
@@ -78,7 +97,7 @@ public class BookingMenuController {
     public void showAdminMenu() {
         int option;
         do {
-            System.out.println("\n==== MENÚ DE ADMINISTRADOR ====");
+            mostrarMensajeCentrado("==== SISTEMA DE GESTION DE RESERVAS ====");
             System.out.println("1. Ver todas las reservas");
             System.out.println("2. Ver reservas actuales");
             System.out.println("3. Ver reservas futuras");
@@ -132,25 +151,25 @@ public class BookingMenuController {
     }
 
     private void mostrarTodasLasReservas() {
-        System.out.println("\n==== LISTADO DE TODAS LAS RESERVAS ====");
+        mostrarMensajeCentrado("==== LISTADO DE TODAS LAS RESERVAS ====");
         List<Booking> reservas = controller.getAllBookings();
         mostrarListaReservas(reservas);
     }
 
     private void mostrarReservasActuales() throws BookingException {
-        System.out.println("\n==== RESERVAS ACTUALES ====");
+        mostrarMensajeCentrado("==== RESERVAS ACTUALES ====");
         List<Booking> reservas = controller.getCurrentBookings();
         mostrarListaReservas(reservas);
     }
 
     private void mostrarReservasFuturas() {
-        System.out.println("\n==== RESERVAS FUTURAS ====");
+        mostrarMensajeCentrado("==== RESERVAS FUTURAS ====");
         List<Booking> reservas = controller.getFutureBookings();
         mostrarListaReservas(reservas);
     }
 
     private void buscarReservaPorId() throws BookingException {
-        System.out.println("\n==== BUSCAR RESERVA POR ID ====");
+        mostrarMensajeCentrado("==== BUSCAR RESERVA POR ID ====");
         System.out.print("ID de la reserva: ");
         String id = scanner.nextLine();
         Booking reserva = controller.getBookingById(id);
@@ -158,7 +177,7 @@ public class BookingMenuController {
     }
 
     private void buscarReservasPorUsuario() throws BookingException {
-        System.out.println("\n==== BUSCAR RESERVAS POR USUARIO ====");
+        mostrarMensajeCentrado("==== BUSCAR RESERVAS POR USUARIO ====");
         System.out.print("ID del usuario: ");
         String userId = scanner.nextLine();
         List<Booking> reservas = controller.getBookingsByUser(userId);
@@ -166,7 +185,7 @@ public class BookingMenuController {
     }
 
     private void buscarReservasPorHabitacion() throws BookingException {
-        System.out.println("\n==== BUSCAR RESERVAS POR HABITACIÓN ====");
+        mostrarMensajeCentrado("==== BUSCAR RESERVAS POR HABITACIÓN ====");
         System.out.print("ID de la habitación: ");
         String roomId = scanner.nextLine();
         List<Booking> reservas = controller.getBookingsByRoom(roomId);
@@ -174,7 +193,7 @@ public class BookingMenuController {
     }
 
     private void crearReserva() throws BookingException, RoomException {
-        System.out.println("\n==== CREAR NUEVA RESERVA ====");
+        mostrarMensajeCentrado("==== CREAR NUEVA RESERVA ====");
         
         System.out.println("ID del usuario: " + account.getId());
         
@@ -192,7 +211,7 @@ public class BookingMenuController {
     }
 
     private void cancelarReserva() throws BookingException, RoomException {
-        System.out.println("\n==== CANCELAR RESERVA ====");
+        mostrarMensajeCentrado("==== CANCELAR RESERVA ====");
         System.out.print("ID de la reserva a cancelar: ");
         String id = scanner.nextLine();
         
@@ -211,7 +230,7 @@ public class BookingMenuController {
     }
 
     private void buscarReservasPorRangoFechas() throws BookingException {
-        System.out.println("\n==== BUSCAR RESERVAS POR RANGO DE FECHAS ====");
+        mostrarMensajeCentrado("==== BUSCAR RESERVAS POR RANGO DE FECHAS ====");
         LocalDateTime fechaInicio = leerFecha("Fecha de inicio (dd/MM/yyyy HH:mm): ");
         LocalDateTime fechaFin = leerFecha("Fecha de fin (dd/MM/yyyy HH:mm): ");
         
@@ -258,13 +277,11 @@ public class BookingMenuController {
         String format = "| %-36s | %-18s | %-18s | %-19s | %-19s | %10s |%n";
         int totalWidth = 137;
 
-        // Header
         System.out.println("+" + "-".repeat(totalWidth) + "+");
         System.out.printf(format, 
             "ID", "USUARIO", "HABITACIÓN", "FECHA INICIO", "FECHA FIN", "TOTAL");
         System.out.println("+" + "-".repeat(totalWidth) + "+");
 
-        // Content
         for (Booking reserva : reservas) {
             String nombreUsuario = "N/A";
             String nombreHabitacion = "N/A";
@@ -284,7 +301,6 @@ public class BookingMenuController {
                 String.format("$%.2f", reserva.getTotal()));
         }
 
-        // Footer
         System.out.println("+" + "-".repeat(totalWidth) + "+");
     }
 
@@ -302,6 +318,15 @@ public class BookingMenuController {
                 System.out.println("Por favor, ingrese un número válido.");
             }
         }
+    }
+
+    public void mostrarMensajeCentrado(String mensaje) {
+        int longitudMaxima = 73;
+        int longitudMensaje = mensaje.length();
+        int espaciosIzquierda = (longitudMaxima - longitudMensaje) / 2;
+        int espaciosDerecha = longitudMaxima - longitudMensaje - espaciosIzquierda;
+        String lineaCentrada = "=".repeat(espaciosIzquierda) + mensaje + "=".repeat(espaciosDerecha);
+        System.out.println(lineaCentrada);
     }
 
     public static void main(String[] args) {

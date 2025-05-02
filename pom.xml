@@ -3,8 +3,9 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.unicron</groupId>
     <artifactId>V1-4</artifactId>
-    <version>0.3</version>
+    <version>1.4.1</version> <!-- Versión actualizada -->
     <packaging>jar</packaging>
+
     <dependencies>
         <dependency>
             <groupId>org.netbeans.external</groupId>
@@ -12,9 +13,28 @@
             <version>RELEASE230</version>
         </dependency>
     </dependencies>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.release>21</maven.compiler.release>
         <exec.mainClass>com.unicron.v1_3.V14</exec.mainClass>
     </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>pl.project13.maven</groupId>
+                <artifactId>git-commit-id-plugin</artifactId>
+                <version>4.0.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>revision</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
