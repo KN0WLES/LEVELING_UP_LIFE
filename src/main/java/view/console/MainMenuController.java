@@ -62,6 +62,7 @@ public class MainMenuController {
             this.productMenu = new ProductMenuController(currentAccount);
             this.roomMenu = new RoomMenuController(currentAccount);
             this.scanner = new Scanner(System.in);
+            this.logo = new Logo();
         } catch (AccountException | BookingException | EventException | RoomException e) {
             System.err.println("Error initializing menus: " + e.getMessage());
         }
@@ -71,6 +72,22 @@ public class MainMenuController {
         int option = -1;
         logo.loadingEffect();
         logo.mostrarLogo();
+        logo.details();
+        do {
+            if (currentAccount == null) {
+                showLoginMenu();
+            } else {
+                showMainMenu();
+                option = readIntOption("Seleccione una opción: ");
+                handleMainMenuOption(option);
+            }
+        } while (option != 0);
+    }
+
+    public void go() {
+        int option = -1;
+        logo.loadingEffect();
+        //logo.mostrarLogo();
         logo.details();
         do {
             if (currentAccount == null) {

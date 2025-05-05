@@ -36,7 +36,7 @@ import java.util.List;
 public class FaQController implements IFaQ {
     
     private final IFile<FaQ> fileHandler;
-    private final String filePath = "/src/main/java/data/faqs.txt";
+    private final String filePath = "src/main/java/data/faqs.txt";
     private List<FaQ> faqs;
 
     public FaQController(IFile<FaQ> fileHandler) throws FaQException{

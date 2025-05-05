@@ -34,7 +34,7 @@ import java.util.List;
 public class AccountController implements IAccount {
     
     private final IFile<Account> fileHandler;
-    private final String filePath = "/src/main/java/data/accounts.txt";
+    private final String filePath = "src/main/java/data/accounts.txt";
     private List<Account> accounts;
 
     public AccountController(IFile<Account> fileHandler) throws AccountException {

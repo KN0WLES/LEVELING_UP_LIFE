@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "FMR_INTRO",
+            "request": "launch",
+            "mainClass": "view.gui.FMR_INTRO",
+            "projectName": "V1-4"
+        },
+        {
+            "type": "java",
+            "name": "FMR_ProductosComida",
+            "request": "launch",
+            "mainClass": "view.gui.FMR_ProductosComida",
+            "projectName": "V1-4"
+        },
+        {
+            "type": "java",
             "name": "LevelingUpLifeLogo",
             "request": "launch",
             "mainClass": "view.console.LevelingUpLifeLogo",

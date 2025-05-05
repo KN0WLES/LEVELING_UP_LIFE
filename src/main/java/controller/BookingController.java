@@ -37,7 +37,7 @@ public class BookingController implements IBooking {
     
     private final IFile<Booking> fileHandler;
     private final RoomController roomController;
-    private final String filePath = "/src/main/java/data/bookings.txt";
+    private final String filePath = "src/main/java/data/bookings.txt";
     private List<Booking> bookings;
 
     public BookingController(IFile<Booking> fileHandler, RoomController roomController) {

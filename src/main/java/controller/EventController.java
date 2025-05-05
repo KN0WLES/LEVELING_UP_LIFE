@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
 public class EventController implements IEvent {
     
     private final IFile<Event> fileHandler;
-    private final String filePath = "/src/main/java/data/events.txt";
+    private final String filePath = "src/main/java/data/events.txt";
     private List<Event> events;
 
     public EventController(IFile<Event> fileHandler) {

@@ -3,11 +3,22 @@ package utils;
 import java.util.regex.Pattern;
 
 /**
- * Valida datos de cuentas (email, teléfono, contraseña, etc.).
+ * Clase que proporciona métodos para validar datos relacionados con cuentas de usuario.
+ * Incluye validaciones para email, teléfono, nombre de usuario y fortaleza de contraseñas.
+ * 
+ * @description Funcionalidades principales:
+ *                   - Validar el formato de correos electrónicos.
+ *                   - Validar números de teléfono con longitud y formato correctos.
+ *                   - Validar nombres de usuario con restricciones de longitud y caracteres permitidos.
+ *                   - Validar la fortaleza de contraseñas (mínimo 8 caracteres, al menos una mayúscula y un número).
+ * 
+ * @author KNOWLES
+ * @version 1.0
+ * @since 2025-04-29
  */
 public class AccountValidation {
 
-    private AccountValidation(){} // Clase de utilidad
+    private AccountValidation(){}
 
     private static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
     private static final String PASSWORD_REGEX = "^(?=.*[A-Z])(?=.*\\d).{8,}$";

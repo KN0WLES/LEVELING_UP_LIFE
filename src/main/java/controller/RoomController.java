@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
 public class RoomController implements IRoom {
     
     private final IFile<Room> fileHandler;
-    private final String filePath = "/src/main/java/data/rooms.txt";
+    private final String filePath = "src/main/java/data/rooms.txt";
     private List<Room> rooms;
 
     public RoomController(IFile<Room> fileHandler)throws RoomException {

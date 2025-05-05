@@ -35,7 +35,7 @@ import java.util.stream.Collectors;
 public class ProductController implements IProduct {
     
     private final IFile<Product> fileHandler;
-    private final String filePath = "/src/main/java/data/products.txt";
+    private final String filePath = "src/main/java/data/products.txt";
     private List<Product> products;
 
     public ProductController(IFile<Product> fileHandler) throws ProductException {
